@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     app:cardElevation="8dp"
     app:cardCornerRadius="8dp"
-    android:layout_margin="16dp">
+    android:layout_margin="16dp"
+    app:cardBackgroundColor="@color/white">
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -19,22 +20,21 @@
             android:layout_gravity="center_vertical"
             android:orientation="horizontal">
             <TextView
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/amount"
                 android:textStyle="bold"
                 android:textSize="25sp"
-                android:textColor="@color/black"
+                android:textColor="@android:color/black"
                 android:text="Amount: "/>
 
             <TextView
                 android:id="@+id/amount1"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="1000"
-                android:textColor="@color/black"
-                android:textSize="20sp"
-                android:layout_below="@+id/amount"/>
+                android:textColor="@android:color/black"
+                android:textSize="20sp"/>
         </LinearLayout>
 
         <LinearLayout
@@ -43,22 +43,21 @@
             android:layout_gravity="center_vertical"
             android:orientation="horizontal">
             <TextView
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/date"
                 android:textStyle="bold"
                 android:textSize="25sp"
-                android:textColor="@color/black"
+                android:textColor="@android:color/black"
                 android:text="Date: "/>
 
             <TextView
                 android:id="@+id/date1"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="10-10-2024"
-                android:textColor="@color/black"
-                android:textSize="20sp"
-                android:layout_below="@+id/date"/>
+                android:textColor="@android:color/black"
+                android:textSize="20sp"/>
         </LinearLayout>
 
         <LinearLayout
@@ -67,22 +66,21 @@
             android:layout_gravity="center_vertical"
             android:orientation="horizontal">
             <TextView
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/reciever"
+                android:id="@+id/receiver"
                 android:textStyle="bold"
                 android:textSize="25sp"
-                android:textColor="@color/black"
+                android:textColor="@android:color/black"
                 android:text="Receiver: "/>
 
             <TextView
-                android:id="@+id/reciever1"
-                android:layout_width="match_parent"
+                android:id="@+id/receiver1"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="2345"
-                android:textColor="@color/black"
-                android:textSize="20sp"
-                android:layout_below="@+id/reciever"/>
+                android:textColor="@android:color/black"
+                android:textSize="20sp"/>
         </LinearLayout>
 
         <LinearLayout
@@ -91,46 +89,44 @@
             android:layout_gravity="center_vertical"
             android:orientation="horizontal">
             <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/savings"
-                android:textStyle="bold"
-                android:textSize="25sp"
-                android:textColor="@color/black"
-                android:text="Savings: "/>
-
-            <TextView
-                android:id="@+id/savings1"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="500"
-                android:textColor="@color/black"
-                android:textSize="20sp"
-                android:layout_below="@+id/savings"/>
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:orientation="horizontal">
-            <TextView
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/type"
                 android:textStyle="bold"
                 android:textSize="25sp"
-                android:textColor="@color/black"
+                android:textColor="@android:color/black"
                 android:text="Type: "/>
 
             <TextView
                 android:id="@+id/type1"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="cash in"
-                android:textColor="@color/black"
-                android:textSize="20sp"
-                android:layout_below="@+id/type"/>
+                android:textColor="@android:color/black"
+                android:textSize="20sp"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/description"
+                android:textStyle="bold"
+                android:textSize="25sp"
+                android:textColor="@android:color/black"
+                android:text="Description: "/>
+
+            <TextView
+                android:id="@+id/description1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Sample description"
+                android:textColor="@android:color/black"
+                android:textSize="20sp"/>
         </LinearLayout>
 
     </LinearLayout>
