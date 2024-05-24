@@ -6,7 +6,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Deposits"
-    android:background="@color/lite_bg">
+    android:background="@color/lite_bg"
+    >
 
     <ImageView
         android:id="@+id/ImageView"
@@ -39,10 +40,11 @@
 
     <TextView
         android:id="@+id/textViewBalance"
-        android:layout_width="149dp"
-        android:layout_height="20dp"
+        android:layout_width="160dp"
+        android:layout_height="59dp"
         android:text="Balance:"
         android:textSize="18sp"
+        android:textColor="@color/black"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.486"
@@ -53,15 +55,17 @@
 
     <TextView
         android:id="@+id/textViewInterestRate"
-        android:layout_width="163dp"
-        android:layout_height="23dp"
+        android:layout_width="184dp"
+        android:layout_height="47dp"
         android:text="Interest Rate:"
         android:textSize="18sp"
+        android:textColor="@color/black"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.413"
+        app:layout_constraintVertical_bias="0.478"
         tools:ignore="MissingConstraints" />
 
     <Button

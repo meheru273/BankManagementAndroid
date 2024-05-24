@@ -21,7 +21,7 @@ public class Deposits extends AppCompatActivity {
     private static final String TAG = "Deposits";
     private TextView textViewBalance;
     private TextView textViewInterestRate;
-    private DatabaseReference databaseReference;
+    DatabaseReference databaseReference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,7 +38,7 @@ public class Deposits extends AppCompatActivity {
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
+            return insets.consumeSystemWindowInsets();
         });
     }
 
@@ -58,7 +58,6 @@ public class Deposits extends AppCompatActivity {
                 } else {
                     Log.e(TAG, "No user found with this email");
                 }
-
             }
 
             @Override
@@ -77,19 +76,27 @@ public class Deposits extends AppCompatActivity {
                     Double balance = dataSnapshot.child("balance").getValue(Double.class);
                     Double interestRate = dataSnapshot.child("interest_rate").getValue(Double.class);
 
+                    // Logging to debug values
+                    Log.d(TAG, "Balance retrieved: " + balance);
+                    Log.d(TAG, "Interest Rate retrieved: " + interestRate);
+
                     // Display the balance and interest rate
                     textViewBalance.setText("Balance: " + (balance != null ? balance : "N/A"));
-                    textViewInterestRate.setText("Interest Rate: " + (interestRate != null ? interestRate + "%" : "N/A"));
+                    textViewInterestRate.setText("Interest Rate: " + (interestRate != null ? interestRate + "1.5%" : "N/A"));
                 } else {
                     Log.e(TAG, "No deposit information found for this user");
+                    textViewBalance.setText("Balance: N/A");
+                    textViewInterestRate.setText("Interest Rate: N/A");
                 }
-
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
                 Log.e(TAG, "Database error: " + databaseError.getMessage());
+                textViewBalance.setText("Database Error");
+                textViewInterestRate.setText("Database Error");
             }
         });
     }
+
 }

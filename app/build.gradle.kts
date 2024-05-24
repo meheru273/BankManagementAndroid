@@ -58,6 +58,10 @@ dependencies {
     testImplementation ("org.junit.jupiter:junit-jupiter-api:5.7.1")
     testRuntimeOnly ("org.junit.jupiter:junit-jupiter-engine:5.7.1")
     testImplementation ("org.easymock:easymock:4.3")
-
+    testImplementation ("junit:junit:4.13.2")
+    testImplementation ("org.mockito:mockito-core:3.11.2")
+    androidTestImplementation ("androidx.test:runner:1.4.0")
+    androidTestImplementation ("androidx.test.ext:junit:1.1.3")
+    androidTestImplementation ("org.mockito:mockito-android:3.11.2")
 
 }

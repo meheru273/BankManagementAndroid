@@ -12,7 +12,7 @@ public class MainActivity extends AppCompatActivity {
     public CardView card1, card2, card3, card4, card5, card6;
     private FinancialServicesFacade financialServices;
     private FirebaseAuth mAuth;
-    UserUtility userUtility ;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -20,18 +20,7 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-        userUtility.getUserIdByEmail(new UserUtility.DataCallback() {
-            @Override
-            public void onDataRetrieved(String userId) {
-                // Pass userId to another class here
-//                AnotherClass.handleUserId(userId);
-            }
 
-            @Override
-            public void onDataNotFound() {
-                // Handle case where user is not found
-            }
-        });
 
         NavigationManager navManager = NavigationManager.getInstance();
         financialServices = new FinancialServicesFacade();
