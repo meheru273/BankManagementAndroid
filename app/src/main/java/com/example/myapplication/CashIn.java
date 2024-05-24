@@ -26,7 +26,8 @@ public class CashIn extends AppCompatActivity {
         setContentView(R.layout.activity_cash_in);
 
         // Initialize Firebase Database reference to the accounts node
-        databaseReference = FirebaseDatabase.getInstance().getReference("accounts");
+// Initialize Firebase Database reference to the accounts node
+        databaseReference = DatabaseFactory.getDatabaseReference(DatabaseFactory.ReferenceType.ACCOUNTS);
 
         editTextAmount = findViewById(R.id.cashamount);
         cashInButton = findViewById(R.id.button);

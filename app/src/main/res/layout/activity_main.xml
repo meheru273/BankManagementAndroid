@@ -247,7 +247,7 @@
                         android:layout_alignParentBottom="true"
                         android:layout_centerHorizontal="true"
                         android:padding="8dp"
-                        android:text="Savings" />
+                        android:text="Deposits" />
                 </RelativeLayout>
 
             </androidx.cardview.widget.CardView>
@@ -328,7 +328,7 @@
             android:layout_width="match_parent"
             android:layout_height="54dp"
             android:layout_margin="20dp"
-            android:background="@color/lite_bg"
+            android:background="@color/white"
             android:text="Log Out" />
 
 

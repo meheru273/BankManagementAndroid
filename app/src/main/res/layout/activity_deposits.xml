@@ -9,6 +9,7 @@
     android:background="@color/lite_bg">
 
     <ImageView
+        android:id="@+id/ImageView"
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:layout_centerInParent="true"
@@ -38,9 +39,8 @@
 
     <TextView
         android:id="@+id/textViewBalance"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textColor="@color/black"
+        android:layout_width="149dp"
+        android:layout_height="20dp"
         android:text="Balance:"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -53,9 +53,8 @@
 
     <TextView
         android:id="@+id/textViewInterestRate"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textColor="@color/black"
+        android:layout_width="163dp"
+        android:layout_height="23dp"
         android:text="Interest Rate:"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"

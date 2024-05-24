@@ -5,16 +5,13 @@
       <SelectionState runConfigName="app">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
-      <SelectionState runConfigName="CashInUITest">
+      <SelectionState runConfigName="DepositsUITest">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
-      <SelectionState runConfigName="testUIComponents()">
+      <SelectionState runConfigName="SendMoneyTest">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
-      <SelectionState runConfigName="TransactionsUITest">
-        <option name="selectionMode" value="DROPDOWN" />
-      </SelectionState>
-      <SelectionState runConfigName="CashOutUITest">
+      <SelectionState runConfigName="testLayoutElementsExist()">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
     </selectionStates>

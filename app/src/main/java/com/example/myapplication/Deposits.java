@@ -58,6 +58,7 @@ public class Deposits extends AppCompatActivity {
                 } else {
                     Log.e(TAG, "No user found with this email");
                 }
+
             }
 
             @Override
@@ -68,7 +69,7 @@ public class Deposits extends AppCompatActivity {
     }
 
     private void fetchDepositInfo(String userId) {
-        DatabaseReference depositsRef = FirebaseDatabase.getInstance().getReference("deposits").child(userId);
+        DatabaseReference depositsRef = FirebaseDatabase.getInstance().getReference("savings").child(userId);
         depositsRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -82,6 +83,7 @@ public class Deposits extends AppCompatActivity {
                 } else {
                     Log.e(TAG, "No deposit information found for this user");
                 }
+
             }
 
             @Override

@@ -1,92 +1,187 @@
 package com.example.myapplication;
 
-import static org.mockito.Mockito.any;
-import static org.mockito.Mockito.doAnswer;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.any;
 
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 @RunWith(RobolectricTestRunner.class)
-@Config(sdk = {28}) // Specify a suitable SDK version
+@Config(manifest = Config.NONE, sdk = 28)
 public class TransactionsTest {
 
     @Mock
-    FirebaseDatabase mockedDatabase;
+    private DatabaseReference mockDatabaseReference;
     @Mock
-    DatabaseReference mockedDatabaseReference;
+    private DataSnapshot mockDataSnapshot;
     @Mock
-    DataSnapshot dataSnapshot;
+    private FirebaseDatabase mockFirebaseDatabase;
+    @Mock
+    private RecyclerView.Adapter adapter;
 
-    private Transactions transactions;
-    private RecyclerView recyclerView;
-    private Adapter adapter;
-    private ArrayList<Model> list;
+    private Transactions transactionsActivity;
+    private List<DataSnapshot> mockDataSnapshots;
 
     @Before
     public void setUp() {
-        MockitoAnnotations.initMocks(this);
-        when(mockedDatabase.getReference("transaction")).thenReturn(mockedDatabaseReference);
+        MockitoAnnotations.openMocks(this);
 
-        // Initialize the activity using Robolectric
-        transactions = Robolectric.buildActivity(Transactions.class).create().get();
+        // Initialize the mock DataSnapshots
+        mockDataSnapshots = new ArrayList<>();
+        DataSnapshot mockSnapshot1 = Mockito.mock(DataSnapshot.class);
+        DataSnapshot mockSnapshot2 = Mockito.mock(DataSnapshot.class);
 
-        // Initialize the list and adapter
-        list = new ArrayList<>();
-        adapter = new Adapter(transactions, list);
+        when(mockSnapshot1.getValue(String.class)).thenReturn("{\"type\":\"deposit\",\"amount\":500.00,\"date\":\"2024-05-01 10:00:00\",\"description\":\"Deposit cash\",\"receiver_account_number\":null}");
+        when(mockSnapshot2.getValue(String.class)).thenReturn("{\"type\":\"withdrawal\",\"amount\":200.00,\"date\":\"2024-05-02 11:00:00\",\"description\":\"ATM withdrawal\",\"receiver_account_number\":null}");
 
-        // Initialize the RecyclerView
-        recyclerView = new RecyclerView(transactions);
-        recyclerView.setLayoutManager(new LinearLayoutManager(transactions));
-        recyclerView.setAdapter(adapter);
+        mockDataSnapshots.add(mockSnapshot1);
+        mockDataSnapshots.add(mockSnapshot2);
 
-        // Set the mock database and adapter in the transactions instance
-        transactions.database = mockedDatabaseReference;
-        transactions.recyclerView = recyclerView;
-        transactions.adapter = adapter;
-        transactions.list = list;
+        // Mock the FirebaseDatabase instance and its methods
+        when(mockFirebaseDatabase.getReference()).thenReturn(mockDatabaseReference);
+        when(mockDatabaseReference.child(anyString())).thenReturn(mockDatabaseReference);
+
+        // Create the Activity with Robolectric
+        transactionsActivity = Robolectric.buildActivity(Transactions.class)
+                .create()
+                .start()
+                .resume()
+                .get();
+        injectMockFirebaseDatabase(transactionsActivity, mockFirebaseDatabase);
+    }
+
+    private void injectMockFirebaseDatabase(Transactions activity, FirebaseDatabase mockFirebaseDatabase) {
+        try {
+            java.lang.reflect.Field databaseField = Transactions.class.getDeclaredField("database");
+            databaseField.setAccessible(true);
+            databaseField.set(activity, mockFirebaseDatabase);
+        } catch (NoSuchFieldException | IllegalAccessException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Test
-    public void fetchDataFromFirebase_Test() {
-        doAnswer(invocation -> {
-            ValueEventListener listener = invocation.getArgument(0);
-            // Simulate onDataChange with mocked DataSnapshot
-            listener.onDataChange(dataSnapshot);
-            return null;
-        }).when(mockedDatabaseReference).addValueEventListener(any(ValueEventListener.class));
-
-        // Assume dataSnapshot returns a list of Models
-        when(dataSnapshot.getChildren()).thenReturn(someIterableOfModels());
-        when(dataSnapshot.getValue(Model.class)).thenReturn(new Model());
-
-        transactions.fetchDataFromFirebase();
-
-        // Verify list was updated
-        verify(transactions.adapter).notifyDataSetChanged();
+    public void testOnCreate_initializesRecyclerView() {
+        RecyclerView recyclerView = transactionsActivity.findViewById(R.id.tran);
+        assertNotNull(recyclerView);
+        assertNotNull(recyclerView.getAdapter());
     }
 
-    private Iterable<DataSnapshot> someIterableOfModels() {
-        // Create mocks or dummy DataSnapshots for testing
-        ArrayList<DataSnapshot> snapshots = new ArrayList<>();
-        snapshots.add(dataSnapshot);
-        return snapshots;
+    @Test
+    public void testFetchTransactions_successful() {
+        ArgumentCaptor<ValueEventListener> argumentCaptor = ArgumentCaptor.forClass(ValueEventListener.class);
+
+        transactionsActivity.fetchTransactions("account1");
+
+        verify(mockDatabaseReference).addListenerForSingleValueEvent(argumentCaptor.capture());
+
+        ValueEventListener listener = argumentCaptor.getValue();
+        when(mockDataSnapshot.getChildren()).thenReturn(mockDataSnapshots);
+        listener.onDataChange(mockDataSnapshot);
+
+        assertEquals(2, transactionsActivity.list.size());
+        assertEquals("{\"type\":\"deposit\",\"amount\":500.00,\"date\":\"2024-05-01 10:00:00\",\"description\":\"Deposit cash\",\"receiver_account_number\":null}", transactionsActivity.list.get(0).toString());
+        assertEquals("{\"type\":\"withdrawal\",\"amount\":200.00,\"date\":\"2024-05-02 11:00:00\",\"description\":\"ATM withdrawal\",\"receiver_account_number\":null}", transactionsActivity.list.get(1).toString());
+    }
+
+    @Test
+    public void testFetchTransactions_failure() {
+        ArgumentCaptor<ValueEventListener> argumentCaptor = ArgumentCaptor.forClass(ValueEventListener.class);
+
+        transactionsActivity.fetchTransactions("account1");
+
+        verify(mockDatabaseReference).addListenerForSingleValueEvent(argumentCaptor.capture());
+
+        ValueEventListener listener = argumentCaptor.getValue();
+        listener.onCancelled(DatabaseError.fromException(new Exception("Database error")));
+
+        assertEquals(0, transactionsActivity.list.size());
+    }
+
+    // Handling null account ID when fetching transactions
+    @Test
+    public void testFetchTransactions_nullAccountId() {
+        transactionsActivity.fetchTransactions(null);
+
+        verify(mockDatabaseReference, never()).addListenerForSingleValueEvent(any());
+        assertEquals(0, transactionsActivity.list.size());
+    }
+
+    // Handling empty data snapshot when fetching transactions
+    @Test
+    public void testFetchTransactions_emptyDataSnapshot() {
+        ArgumentCaptor<ValueEventListener> argumentCaptor = ArgumentCaptor.forClass(ValueEventListener.class);
+
+        transactionsActivity.fetchTransactions("account1");
+
+        verify(mockDatabaseReference).addListenerForSingleValueEvent(argumentCaptor.capture());
+
+        ValueEventListener listener = argumentCaptor.getValue();
+        when(mockDataSnapshot.getChildren()).thenReturn(Collections.emptyList());
+        listener.onDataChange(mockDataSnapshot);
+
+        assertEquals(0, transactionsActivity.list.size());
+    }
+
+    // Handling a null DataSnapshot in onDataChange
+    @Test
+    public void testNullDataSnapshotInOnDataChange() {
+        ArgumentCaptor<ValueEventListener> argumentCaptor = ArgumentCaptor.forClass(ValueEventListener.class);
+
+        transactionsActivity.fetchTransactions("account1");
+
+        verify(mockDatabaseReference).addListenerForSingleValueEvent(argumentCaptor.capture());
+
+        ValueEventListener listener = argumentCaptor.getValue();
+        listener.onDataChange(null);
+
+        assertEquals(0, transactionsActivity.list.size());
+    }
+
+    // Testing if notifyDataSetChanged is called after fetching transactions
+    @Test
+    public void testNotifyDataSetChangedCalledAfterFetchingTransactions() {
+        ArgumentCaptor<ValueEventListener> argumentCaptor = ArgumentCaptor.forClass(ValueEventListener.class);
+
+        transactionsActivity.fetchTransactions("account1");
+
+        verify(mockDatabaseReference).addListenerForSingleValueEvent(argumentCaptor.capture());
+
+        ValueEventListener listener = argumentCaptor.getValue();
+        when(mockDataSnapshot.getChildren()).thenReturn(mockDataSnapshots);
+        listener.onDataChange(mockDataSnapshot);
+
+        verify(adapter).notifyDataSetChanged();
+    }
+
+    @After
+    public void tearDown() {
+        // No need to close static mocks since we are not using them
     }
 }

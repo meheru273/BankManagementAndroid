@@ -13,7 +13,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
@@ -23,7 +22,7 @@ public class Transactions extends AppCompatActivity {
     RecyclerView recyclerView;
     DatabaseReference database;
     Adapter adapter;
-    ArrayList<Model> list;
+    public ArrayList<Model> list;
     private static final String TAG = "TransactionsActivity";
 
     @SuppressLint({"WrongViewCast", "MissingInflatedId"})
@@ -48,8 +47,12 @@ public class Transactions extends AppCompatActivity {
         }
     }
 
-    private void fetchTransactions(String accountId) {
-        DatabaseReference transactionsRef = FirebaseDatabase.getInstance().getReference("transactions").child(accountId);
+    public void fetchTransactions(String accountId) {
+       //DatabaseReference transactionsRef = FirebaseDatabase.getInstance().getReference("transactions").child(accountId);
+        // Initialize Firebase Database reference to the accounts node
+        DatabaseReference transactionsRef = DatabaseFactory.getDatabaseReference(DatabaseFactory.ReferenceType.TRANSACTIONS).child(accountId);
+
+
         transactionsRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @SuppressLint("NotifyDataSetChanged")
             @Override
@@ -62,6 +65,7 @@ public class Transactions extends AppCompatActivity {
                     }
                 }
                 adapter.notifyDataSetChanged();
+
             }
 
             @Override

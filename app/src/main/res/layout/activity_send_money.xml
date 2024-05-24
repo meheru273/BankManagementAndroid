@@ -5,14 +5,13 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".CashIn"
+    tools:context=".SendMoney"
     android:background="@color/lite_bg">
 
     <ImageView
         android:id="@+id/imageView"
         android:layout_width="60dp"
         android:layout_height="60dp"
-        android:layout_centerInParent="true"
         android:src="@drawable/send"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -23,13 +22,14 @@
         tools:ignore="MissingConstraints" />
 
     <TextView
-        android:id="@+id/textView5"
+        android:id="@+id/sendMoneyLabel"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Send Money"
         android:textAlignment="center"
         android:textSize="20dp"
         android:textStyle="bold"
+        android:textColor="@color/black"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.252"
@@ -37,38 +37,27 @@
         tools:layout_editor_absoluteX="0dp" />
 
     <EditText
-        android:id="@+id/editTextSenderEmail"
+        android:id="@+id/sendAmount"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Sender Email"
+        android:hint="Amount"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:ignore="MissingConstraints" />
 
     <EditText
-        android:id="@+id/editTextReceiverAccount"
+        android:id="@+id/receiverAccountNumber"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Receiver Account Number"
+        android:hint="Sender Email"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.386"
         tools:ignore="MissingConstraints"
         tools:layout_editor_absoluteX="0dp" />
 
-    <EditText
-        android:id="@+id/editTextAmount"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Amount"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.32"
-        tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteX="16dp" />
-
     <Button
-        android:id="@+id/buttonSendMoney"
+        android:id="@+id/sendButton"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_margin="20dp"

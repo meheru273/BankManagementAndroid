@@ -1,14 +1,13 @@
 {
   "project_info": {
-    "project_number": "1038651978957",
-    "firebase_url": "https://test-8b184-default-rtdb.firebaseio.com",
-    "project_id": "test-8b184",
-    "storage_bucket": "test-8b184.appspot.com"
+    "project_number": "119024250079",
+    "project_id": "bank-management-6b03a",
+    "storage_bucket": "bank-management-6b03a.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:1038651978957:android:d4dba54df769eacb866584",
+        "mobilesdk_app_id": "1:119024250079:android:b0b8e8f191b8985a0ccd6a",
         "android_client_info": {
           "package_name": "com.example.myapplication"
         }
@@ -16,7 +15,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyCLi9P9TPex6HaeX2pVTBc8llJip6Xkd-U"
+          "current_key": "AIzaSyAtFuGc25n34NsefMplCWObqgQRhWGcKqU"
         }
       ],
       "services": {

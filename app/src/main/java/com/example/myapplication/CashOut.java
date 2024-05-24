@@ -26,7 +26,10 @@ public class CashOut extends AppCompatActivity {
         setContentView(R.layout.activity_cash_out);
 
         // Initialize Firebase Database reference to the accounts node
-        databaseReference = FirebaseDatabase.getInstance().getReference("accounts");
+        // Initialize Firebase Database reference to the accounts node using DatabaseFactory
+        databaseReference = DatabaseFactory.getDatabaseReference(DatabaseFactory.ReferenceType.ACCOUNTS);
+
+        editTextAmount = findViewById(R.id.cashamount);
 
         editTextAmount = findViewById(R.id.cashamount);
         cashOutButton = findViewById(R.id.button);
@@ -80,7 +83,7 @@ public class CashOut extends AppCompatActivity {
         }).addOnFailureListener(e -> Toast.makeText(this, "Error fetching balance", Toast.LENGTH_SHORT).show());
     }
 
-    private void logTransaction(String accountId, double amount) {
+    public void logTransaction(String accountId, double amount) {
         DatabaseReference transactionsRef = FirebaseDatabase.getInstance().getReference("transactions").child(accountId);
         String transactionKey = transactionsRef.push().getKey();
         if (transactionKey != null) {
