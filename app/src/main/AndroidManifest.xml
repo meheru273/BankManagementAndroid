@@ -13,6 +13,25 @@
         android:theme="@style/Theme.MyApplication"
         tools:targetApi="31">
         <activity
+            android:name=".Deposits"
+            android:exported="false" />
+
+        <activity
+            android:name=".CashOut"
+            android:exported="false" />
+        <activity
+            android:name=".PayBill"
+            android:exported="false" />
+        <activity
+            android:name=".Transactions"
+            android:exported="false" />
+        <activity
+            android:name=".SendMoney"
+            android:exported="false" />
+        <activity
+            android:name=".CashIn"
+            android:exported="false" />
+        <activity
             android:name=".EmployeeDashboardActivity"
             android:exported="false" />
         <activity
