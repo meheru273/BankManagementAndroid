@@ -1,7 +1,7 @@
 //Account class create korte hobe taile error chole jabe
 //Employee Account jeta Account ke extend kore
 //Employee Account e employeeId, name, branch thakbe
-
+//user account e name thakbe
 package com.example.myapplication;
 
 import android.content.Intent;
