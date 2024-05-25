@@ -58,7 +58,7 @@ public class CashOut extends AppCompatActivity {
     }
 
     private void cashOutMoney(String accountId, double amount) {
-        DatabaseReference accountRef = databaseReference.child(accountId).child("balance");
+        DatabaseReference accountRef = DatabaseFactory.getDatabaseReference(DatabaseFactory.ReferenceType.USER).child("total");
         accountRef.get().addOnSuccessListener(dataSnapshot -> {
             if (dataSnapshot.exists()) {
                 Double currentBalance = dataSnapshot.getValue(Double.class);
@@ -84,11 +84,11 @@ public class CashOut extends AppCompatActivity {
     }
 
     public void logTransaction(String accountId, double amount) {
-        DatabaseReference transactionsRef = FirebaseDatabase.getInstance().getReference("transactions").child(accountId);
+        DatabaseReference transactionsRef = DatabaseFactory.getDatabaseReference(DatabaseFactory.ReferenceType.TRANSACTIONS);
         String transactionKey = transactionsRef.push().getKey();
         if (transactionKey != null) {
             Model transaction = new Model();
-            transaction.setType("withdrawal");
+            transaction.setType("Cash Out");
             transaction.setAmount(amount);
             transaction.setDate("2024-05-01 10:00:00");  // This should be dynamically set to the current date and time
             transaction.setDescription("Cash out");
