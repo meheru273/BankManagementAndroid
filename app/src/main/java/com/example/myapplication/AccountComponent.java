@@ -59,6 +59,7 @@ class CompositeAccount extends AccountComponent {
         }
         return details.toString();
     }
+    public List<AccountComponent> getAccounts() { return childAccounts; }
 }
 
 // Concrete classes for different account types
