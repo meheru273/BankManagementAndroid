@@ -47,6 +47,10 @@ public class LoginActivity extends AppCompatActivity {
 
         loginButton.setOnClickListener(view -> loginUser());
         signUpButton.setOnClickListener(view -> navigateToSelection());
+
+        if (auth.getCurrentUser() != null) {
+            checkUserRole(auth.getCurrentUser().getUid());
+        }
     }
 
     /**
@@ -62,7 +66,7 @@ public class LoginActivity extends AppCompatActivity {
             return;
         }
 
-        if (!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+        if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
             emailField.setError("Please provide a valid email");
             emailField.requestFocus();
             return;
@@ -96,11 +100,21 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
                 if (snapshot.exists()) {
+                    String name = snapshot.child("name").getValue(String.class);
+                    String employeeId = snapshot.child("employeeId").getValue(String.class);
                     Boolean isEmployee = snapshot.child("isEmployee").getValue(Boolean.class);
-                    if (isEmployee != null && isEmployee) {
-                        redirectToEmployeeDashboard();
+
+                    // Check if any of the retrieved values are null
+                    if (name != null && employeeId != null && isEmployee != null) {
+                        // Check if the user is an employee
+                        if (isEmployee) {
+                            redirectToEmployeeDashboard();
+                        } else {
+                            redirectToUserDashboard();
+                        }
                     } else {
-                        redirectToUserDashboard();
+                        // Handle missing or null data
+                        Toast.makeText(LoginActivity.this, "User data incomplete", Toast.LENGTH_SHORT).show();
                     }
                 } else {
                     Toast.makeText(LoginActivity.this, "User data not found", Toast.LENGTH_SHORT).show();
@@ -113,6 +127,7 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
     }
+
 
     /**
      * Redirects to the Employee Dashboard Activity.
