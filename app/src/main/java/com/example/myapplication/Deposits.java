@@ -3,6 +3,7 @@ package com.example.myapplication;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -31,9 +32,16 @@ public class Deposits extends AppCompatActivity {
         textViewBalance = findViewById(R.id.textViewBalance);
         textViewInterestRate = findViewById(R.id.textViewInterestRate);
 
-        // Assume the email is passed to this activity or retrieved from FirebaseAuth
-        String email = "jane.smith@example.com";  // Replace with the actual email from the logged-in user
-        getUserIdFromEmail(email);
+
+
+        String userId = "user1"; // Use dynamic ID in real scenarios
+        if (userId != null) {
+            fetchDepositInfo(userId);
+        } else {
+            Toast.makeText(this, "User ID is not available", Toast.LENGTH_SHORT).show();
+            finish();  // Close the activity if there's no user ID
+        }
+
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
@@ -42,33 +50,12 @@ public class Deposits extends AppCompatActivity {
         });
     }
 
-    private void getUserIdFromEmail(String email) {
-        DatabaseReference usersRef = FirebaseDatabase.getInstance().getReference("users");
-        usersRef.orderByChild("email").equalTo(email).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if (dataSnapshot.exists()) {
-                    for (DataSnapshot userSnapshot : dataSnapshot.getChildren()) {
-                        String userId = userSnapshot.getKey();
-                        if (userId != null) {
-                            // Now fetch the deposit information using this userId
-                            fetchDepositInfo(userId);
-                        }
-                    }
-                } else {
-                    Log.e(TAG, "No user found with this email");
-                }
-            }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-                Log.e(TAG, "Database error: " + databaseError.getMessage());
-            }
-        });
-    }
+
+
 
     private void fetchDepositInfo(String userId) {
-        DatabaseReference depositsRef = FirebaseDatabase.getInstance().getReference("savings").child(userId);
+        DatabaseReference depositsRef = DatabaseFactory.getDatabaseReference(DatabaseFactory.ReferenceType.DEPOSITE);
         depositsRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {

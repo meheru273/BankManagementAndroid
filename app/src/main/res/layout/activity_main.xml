@@ -39,7 +39,8 @@
                     android:layout_alignParentEnd="true"
                     android:layout_marginEnd="30dp"
                     android:layout_marginRight="30dp"
-                    android:drawableEnd="@drawable/money_24"
+                    android:drawableEnd="@drawable/money"
+
                     android:drawablePadding="12dp"
                     android:gravity="center_vertical"
                     android:text="4500"

@@ -1,7 +1,10 @@
 package com.example.myapplication;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -37,23 +40,32 @@ public class LoginActivity extends AppCompatActivity {
         signUpButton = findViewById(R.id.signUpButton);
 
         loginButton.setOnClickListener(view -> loginUser());
-        signUpButton.setOnClickListener(view -> navigateToSelection());
+//        signUpButton.setOnClickListener(view -> navigateToSelection());
     };
 
     private void loginUser() {
         String email = emailField.getText().toString();
         String password = passwordField.getText().toString();
 
-        auth.signInWithEmailAndPassword(email, password)
-                .addOnCompleteListener(task -> {
-                    if (task.isSuccessful()) {
-                        // Redirect to the appropriate dashboard
-                        redirectToDashboard();
-                    } else {
-                        // Handle login failure
-                        Toast.makeText(LoginActivity.this, "Login failed: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
-                    }
-                });
+        auth.signInWithEmailAndPassword(email, password).addOnCompleteListener(this, task -> {
+            if (task.isSuccessful()) {
+                redirectToDashboard();
+            } else {
+                if (task.getException() != null) {
+                    Log.e("LoginActivity", "Login failed: " + task.getException().getMessage());
+                    Toast.makeText(LoginActivity.this, "Login failed: " + task.getException().getMessage(), Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+
+    }
+
+
+    private void saveUserId(String userId) {
+        SharedPreferences sharedPreferences = getSharedPreferences("AppPrefs", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("UserId", userId);
+        editor.apply();
     }
 
     private void redirectToDashboard() {
@@ -62,8 +74,8 @@ public class LoginActivity extends AppCompatActivity {
         finish();
     }
 
-    private void navigateToSelection() {
-        Intent intent = new Intent(LoginActivity.this, SelectionActivity.class);
-        startActivity(intent);
-    }
+//    private void navigateToSelection() {
+//        Intent intent = new Intent(LoginActivity.this, SelectionActivity.class);
+//        startActivity(intent);
+//    }
 }
