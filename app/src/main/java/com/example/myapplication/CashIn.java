@@ -26,16 +26,19 @@ public class CashIn extends AppCompatActivity {
         setContentView(R.layout.activity_cash_in);
 
         // Initialize Firebase Database reference to the accounts node
-// Initialize Firebase Database reference to the accounts node
-        databaseReference = DatabaseFactory.getDatabaseReference(DatabaseFactory.ReferenceType.ACCOUNTS);
+
 
         editTextAmount = findViewById(R.id.cashamount);
         cashInButton = findViewById(R.id.button);
 
-        // Example account ID passed from MainActivity, should be dynamically obtained based on your application logic
-        String accountId = "account1";  // For example, retrieve this dynamically based on user's selection or login
-        if (accountId == null) {
-            Toast.makeText(this, "Account ID is not available", Toast.LENGTH_SHORT).show();
+        databaseReference = DatabaseFactory.getDatabaseReference(DatabaseFactory.ReferenceType.USER);
+
+        // Example user ID and account ID passed from MainActivity, should be dynamically obtained based on your application logic
+        String userId = "user1";  // For example, retrieve this dynamically based on user's selection or login
+        String accountId = "account1";
+
+        if (userId == null || accountId == null) {
+            Toast.makeText(this, "User ID or Account ID is not available", Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -45,7 +48,7 @@ public class CashIn extends AppCompatActivity {
                 try {
                     double amount = Double.parseDouble(amountText);
                     // Now you can use this amount to cash in
-                    cashInMoney(accountId, amount);
+                    cashInMoney(userId, accountId, amount);
                 } catch (NumberFormatException e) {
                     Toast.makeText(this, "Please enter a valid amount", Toast.LENGTH_SHORT).show();
                 }
@@ -55,8 +58,8 @@ public class CashIn extends AppCompatActivity {
         });
     }
 
-    private void cashInMoney(String accountId, double amount) {
-        DatabaseReference accountRef = databaseReference.child(accountId).child("balance");
+    private void cashInMoney(String userId, String accountId, double amount) {
+        DatabaseReference accountRef = DatabaseFactory.getDatabaseReference(DatabaseFactory.ReferenceType.USER).child("total");
         accountRef.get().addOnSuccessListener(dataSnapshot -> {
             if (dataSnapshot.exists()) {
                 Double currentBalance = dataSnapshot.getValue(Double.class);
@@ -67,7 +70,7 @@ public class CashIn extends AppCompatActivity {
                             .addOnFailureListener(e -> Toast.makeText(CashIn.this, "Failed to update balance", Toast.LENGTH_SHORT).show());
 
                     // Optionally log this transaction in the 'transactions' node
-                    logTransaction(accountId, amount, newBalance);
+                    logTransaction(userId, accountId, amount, newBalance);
                 } else {
                     Toast.makeText(this, "Failed to fetch current balance", Toast.LENGTH_SHORT).show();
                 }
@@ -77,16 +80,17 @@ public class CashIn extends AppCompatActivity {
         }).addOnFailureListener(e -> Toast.makeText(this, "Error fetching balance", Toast.LENGTH_SHORT).show());
     }
 
-    private void logTransaction(String accountId, double amount, double newBalance) {
-        DatabaseReference transactionsRef = FirebaseDatabase.getInstance().getReference("transactions").child(accountId);
+    private void logTransaction(String userId, String accountId, double amount, double newBalance) {
+        DatabaseReference transactionsRef = DatabaseFactory.getDatabaseReference(DatabaseFactory.ReferenceType.TRANSACTIONS);
         String transactionKey = transactionsRef.push().getKey();
         if (transactionKey != null) {
             Model transaction = new Model();
-            transaction.setType("deposit");
+            transaction.setType("Cash In");
             transaction.setAmount(amount);
             transaction.setDate("2024-05-01 10:00:00");  // This should be dynamically set to the current date and time
             transaction.setDescription("Cash in ");
             transaction.setReceiverAccountNumber(null);
+
 
             transactionsRef.child(transactionKey).setValue(transaction)
                     .addOnFailureListener(e -> Log.e(TAG, "Failed to log transaction: " + e.getMessage()));
