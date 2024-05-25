@@ -317,7 +317,7 @@
                         android:layout_alignParentBottom="true"
                         android:layout_centerHorizontal="true"
                         android:padding="8dp"
-                        android:text="Pay Bill" />
+                        android:text="Accounts" />
                 </RelativeLayout>
 
             </androidx.cardview.widget.CardView>
