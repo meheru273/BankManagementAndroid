@@ -13,7 +13,7 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.google.firebase.auth.FirebaseAuth;
-
+import com.google.firebase.FirebaseApp;
 public class LoginActivity extends AppCompatActivity {
     private FirebaseAuth auth;
     private EditText emailField, passwordField;
