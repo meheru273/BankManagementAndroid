@@ -23,6 +23,9 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+/**
+ * Activity for registering new employee accounts.
+ */
 public class EmployeeRegisterActivity extends AppCompatActivity {
 
     private FirebaseAuth auth;
@@ -44,6 +47,12 @@ public class EmployeeRegisterActivity extends AppCompatActivity {
         nameField = findViewById(R.id.nameField);
         registerButton = findViewById(R.id.registerButton);
 
+        /**
+         * Called when the activity is first created.
+         *
+         * @param savedInstanceState If the activity is being re-initialized after previously being shut down then this Bundle contains the data it most recently supplied in onSaveInstanceState(Bundle). Otherwise it is null.
+         */
+
         registerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -51,6 +60,10 @@ public class EmployeeRegisterActivity extends AppCompatActivity {
             }
         });
     }
+
+    /**
+     * Registers a new employee by validating input fields and creating a Firebase authentication user.
+     */
 
     private void registerEmployee() {
         String email = emailField.getText().toString().trim();
@@ -115,6 +128,10 @@ public class EmployeeRegisterActivity extends AppCompatActivity {
             }
         });
     }
+
+    /**
+     * Redirects to the Employee Dashboard Activity upon successful registration.
+     */
 
     private void redirectToEmployeeDashboardActivity() {
         Intent intent = new Intent(EmployeeRegisterActivity.this, LoginActivity.class);
