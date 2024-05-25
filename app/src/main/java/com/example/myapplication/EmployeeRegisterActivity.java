@@ -58,6 +58,11 @@ public class EmployeeRegisterActivity extends AppCompatActivity {
         String employeeId = employeeIdField.getText().toString().trim();
         String name = nameField.getText().toString().trim();
 
+
+        if (Employee.getInstance(null, null, null) != null ) {
+            Employee.getInstance(null, null, null).employeeInstanceDestroy();
+        }
+
         if (name.isEmpty()) {
             nameField.setError("Name is required");
             nameField.requestFocus();
@@ -94,8 +99,8 @@ public class EmployeeRegisterActivity extends AppCompatActivity {
 
                 if (task.isSuccessful()) {
                     String userId = auth.getCurrentUser().getUid();
-
-                    Employee employee = Employee.getInstance(name, employeeId.isEmpty() ? null : employeeId);
+                    boolean isEmployee=true;
+                    Employee employee = Employee.getInstance(name, employeeId.isEmpty() ? null : employeeId,isEmployee);
 
                     // Save employee info to Realtime Database
                     dbRef.child(userId).setValue(employee)
@@ -112,7 +117,7 @@ public class EmployeeRegisterActivity extends AppCompatActivity {
     }
 
     private void redirectToEmployeeDashboardActivity() {
-        Intent intent = new Intent(EmployeeRegisterActivity.this, EmployeeDashboardActivity.class);
+        Intent intent = new Intent(EmployeeRegisterActivity.this, LoginActivity.class);
         startActivity(intent);
         finish();
     }

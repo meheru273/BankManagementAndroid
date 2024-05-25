@@ -13,10 +13,12 @@ public class Employee {
     private static Employee instance = null;
     private String name;
     private String employeeId;
-    private Employee(String name, String employeeId) {
+    private Boolean isEmployee;
+    private Employee(String name, String employeeId, Boolean isEmployee) {
         this.name = name;
         if(employeeId == null) this.employeeId = generateEmployeeId();
         else this.employeeId = employeeId;
+        this.isEmployee=true;
     }
 
     /***
@@ -25,9 +27,9 @@ public class Employee {
      * @param employeeId randomly generated id of employee
      * @return returns the instance of the created or stored employee details.
      */
-    public static Employee getInstance(String name,String employeeId) {
+    public static Employee getInstance(String name,String employeeId, Boolean isEmployee) {
         if(instance == null) {
-            instance = new Employee(name, employeeId);
+            instance = new Employee(name, employeeId, isEmployee);
         }
         return instance;
     }
@@ -59,4 +61,7 @@ public class Employee {
     public String getEmployeeId() {
         return employeeId;
     }
+
+    public Boolean getIsEmployee() {
+        return isEmployee;}
 }
