@@ -57,7 +57,7 @@ public class SendMoney extends AppCompatActivity {
     }
 
     private void sendMoney(String senderAccountId, String receiverAccountNumber, double amount) {
-        DatabaseReference senderAccountRef = databaseReference.child(senderAccountId).child("balance");
+        DatabaseReference senderAccountRef = DatabaseFactory.getDatabaseReference(DatabaseFactory.ReferenceType.USER).child("total");
 
         senderAccountRef.get().addOnSuccessListener(senderSnapshot -> {
             if (senderSnapshot.exists()) {
@@ -83,7 +83,7 @@ public class SendMoney extends AppCompatActivity {
     }
 
     private void logTransaction(String senderAccountId, String receiverAccountNumber, double amount) {
-        DatabaseReference transactionsRef = FirebaseDatabase.getInstance().getReference("transactions").child(senderAccountId);
+        DatabaseReference transactionsRef = DatabaseFactory.getDatabaseReference(DatabaseFactory.ReferenceType.TRANSACTIONS);
         String transactionKey = transactionsRef.push().getKey();
         if (transactionKey != null) {
             Model transaction = new Model();
