@@ -1,3 +1,4 @@
+
 package com.example.myapplication;
 
 import static org.mockito.Mockito.*;
@@ -73,4 +74,5 @@ public class MainActivityTest {
         }).when(mockedDatabaseReference).addListenerForSingleValueEvent(any(ValueEventListener.class));
         return any(ValueEventListener.class);
     }
-}
+
+
