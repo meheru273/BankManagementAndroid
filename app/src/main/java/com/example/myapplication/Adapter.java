@@ -10,6 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 public class Adapter extends RecyclerView.Adapter<Adapter.MyViewHolder> {
 
@@ -31,11 +32,11 @@ public class Adapter extends RecyclerView.Adapter<Adapter.MyViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         Model model = list.get(position);
-        holder.amount.setText(String.valueOf(model.getAmount()));
+        holder.amount.setText(String.format(Locale.getDefault(), "%.2f", model.getAmount()));
         holder.date.setText(model.getDate());
-        holder.reciever.setText(model.getReciever());
-        holder.savings.setText(String.valueOf(model.getSavings()));
+        holder.receiver.setText(model.getReceiverAccountNumber() == null ? "N/A" : model.getReceiverAccountNumber());
         holder.type.setText(model.getType());
+        holder.description.setText(model.getDescription());
     }
 
     @Override
@@ -44,16 +45,15 @@ public class Adapter extends RecyclerView.Adapter<Adapter.MyViewHolder> {
     }
 
     public static class MyViewHolder extends RecyclerView.ViewHolder {
-        TextView amount, date, reciever, savings, type;
+        TextView amount, date, receiver, type, description;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
             amount = itemView.findViewById(R.id.amount1);
             date = itemView.findViewById(R.id.date1);
-            reciever = itemView.findViewById(R.id.reciever1);
-            savings = itemView.findViewById(R.id.savings1);
+            receiver = itemView.findViewById(R.id.receiver1);
             type = itemView.findViewById(R.id.type1);
+            description = itemView.findViewById(R.id.description1);
         }
     }
 }
-

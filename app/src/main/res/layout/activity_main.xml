@@ -39,7 +39,8 @@
                     android:layout_alignParentEnd="true"
                     android:layout_marginEnd="30dp"
                     android:layout_marginRight="30dp"
-                    android:drawableEnd="@drawable/money_24"
+                    android:drawableEnd="@drawable/money"
+
                     android:drawablePadding="12dp"
                     android:gravity="center_vertical"
                     android:text="4500"
@@ -247,7 +248,7 @@
                         android:layout_alignParentBottom="true"
                         android:layout_centerHorizontal="true"
                         android:padding="8dp"
-                        android:text="Savings" />
+                        android:text="Deposits" />
                 </RelativeLayout>
 
             </androidx.cardview.widget.CardView>
@@ -316,7 +317,7 @@
                         android:layout_alignParentBottom="true"
                         android:layout_centerHorizontal="true"
                         android:padding="8dp"
-                        android:text="Pay Bill" />
+                        android:text="Accounts" />
                 </RelativeLayout>
 
             </androidx.cardview.widget.CardView>
@@ -328,7 +329,7 @@
             android:layout_width="match_parent"
             android:layout_height="54dp"
             android:layout_margin="20dp"
-            android:background="@color/lite_bg"
+            android:background="@color/white"
             android:text="Log Out" />
 
 

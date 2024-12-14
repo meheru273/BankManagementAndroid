@@ -28,7 +28,7 @@ public class NavigationManager {
     }
 
     public void navigateToSavings(Context context) {
-        context.startActivity(new Intent(context, Savings.class));
+        context.startActivity(new Intent(context, Deposits.class));
     }
 
     public void navigateToTransactions(Context context) {
