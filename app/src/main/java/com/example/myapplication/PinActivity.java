@@ -10,8 +10,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.auth.FirebaseAuth;
 
-/** Quick-unlock screen shown on every app open when the user is logged in. */
+/** Quick-unlock screen shown on every app open when a PIN is cached for the signed-in user. */
 public class PinActivity extends AppCompatActivity {
 
     private TextInputLayout tilPin;
@@ -40,7 +41,8 @@ public class PinActivity extends AppCompatActivity {
         });
 
         findViewById(R.id.tvUsePassword).setOnClickListener(v -> {
-            session.logout();
+            FirebaseAuth.getInstance().signOut();
+            session.clear();
             Intent i = new Intent(this, LoginActivity.class);
             i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(i);

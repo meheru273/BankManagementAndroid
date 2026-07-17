@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Sora:wght@500;600;700&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@latest"></script>
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:'Plus Jakarta Sans',sans-serif;-webkit-font-smoothing:antialiased}
+a{color:#3a2b4a;text-decoration:none}
+a:hover{color:#2b3a5b}
+.scr::-webkit-scrollbar{display:none}
+.scr{scrollbar-width:none}
+@keyframes scrin{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+@keyframes pop{0%{transform:scale(.6);opacity:0}60%{transform:scale(1.08)}100%{transform:scale(1);opacity:1}}
+</style>
+</helmet>
+<div style="min-height:100vh;background:radial-gradient(120% 90% at 50% 0%,#f7eff2 0%,#efe4ea 55%,#e9dce4 100%);display:flex;align-items:center;justify-content:center;padding:36px">
+  <div style="position:relative;width:402px;height:872px;background:#0e0b12;border-radius:52px;padding:12px;box-shadow:0 50px 100px -30px rgba(58,43,74,.6),0 0 0 1px rgba(0,0,0,.35)">
+    <div style="position:relative;width:100%;height:100%;background:#f4ebee;border-radius:42px;overflow:hidden;display:flex;flex-direction:column">
+
+      <div style="height:50px;flex:none;display:flex;align-items:center;justify-content:space-between;padding:0 26px;font-size:14px;font-weight:700;color:#2a2431;position:relative;z-index:6">
+        <span>9:41</span>
+        <div style="position:absolute;left:50%;top:11px;transform:translateX(-50%);width:100px;height:26px;background:#0e0b12;border-radius:16px"></div>
+        <div style="display:flex;gap:7px;align-items:center">
+          <i data-lucide="signal" style="width:15px;height:15px"></i>
+          <i data-lucide="wifi" style="width:15px;height:15px"></i>
+          <i data-lucide="battery-full" style="width:22px;height:15px"></i>
+        </div>
+      </div>
+
+      <div class="scr" style="flex:1;overflow-y:auto;position:relative">
+
+        <!-- HOME -->
+        <sc-if value="{{ isHome }}" hint-placeholder-val="{{ true }}">
+        <div style="padding:4px 22px 120px;animation:scrin .3s ease">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:22px">
+            <div style="display:flex;align-items:center;gap:12px">
+              <div style="width:46px;height:46px;border-radius:50%;background:linear-gradient(135deg,#3a2b4a,#2b3a5b);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:15px">AR</div>
+              <div>
+                <div style="font-size:12px;color:#8a8090">Good morning</div>
+                <div style="font-size:16px;font-weight:700;color:#2a2431">Ayesha Rahman</div>
+              </div>
+            </div>
+            <button style="width:44px;height:44px;border-radius:50%;background:#fff;border:none;display:flex;align-items:center;justify-content:center;box-shadow:0 6px 16px rgba(58,43,74,.1);position:relative;cursor:pointer">
+              <i data-lucide="bell" style="width:20px;height:20px;color:#3a2b4a"></i>
+              <span style="position:absolute;top:11px;right:12px;width:8px;height:8px;background:#d8c24a;border-radius:50%;border:2px solid #fff"></span>
+            </button>
+          </div>
+
+          <div style="background:linear-gradient(135deg,#3a2b4a 0%,#2b3a5b 100%);border-radius:28px;padding:24px;color:#fff;box-shadow:0 22px 44px -20px rgba(58,43,74,.7);margin-bottom:24px;position:relative;overflow:hidden">
+            <div style="position:absolute;right:-30px;top:-30px;width:150px;height:150px;border-radius:50%;background:rgba(216,194,74,.14)"></div>
+            <div style="position:absolute;right:30px;bottom:-50px;width:110px;height:110px;border-radius:50%;background:rgba(189,147,171,.16)"></div>
+            <div style="display:flex;justify-content:space-between;align-items:center;position:relative">
+              <span style="font-size:13px;color:rgba(255,255,255,.72)">Total available balance</span>
+              <button onClick="{{ toggleBal }}" style="background:rgba(255,255,255,.16);border:none;width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer">
+                <i data-lucide="{{ eyeIcon }}" style="width:16px;height:16px;color:#fff"></i>
+              </button>
+            </div>
+            <div style="font-family:'Sora';font-size:38px;font-weight:700;letter-spacing:-1.5px;margin:10px 0 8px;position:relative">{{ balanceText }}</div>
+            <div style="display:flex;gap:8px;align-items:center;position:relative">
+              <span style="background:#d8c24a;color:#2a2431;font-size:11px;font-weight:800;padding:4px 9px;border-radius:20px;display:inline-flex;align-items:center;gap:3px"><i data-lucide="trending-up" style="width:12px;height:12px"></i> 10%</span>
+              <span style="font-size:12px;color:rgba(255,255,255,.62)">vs last month</span>
+            </div>
+          </div>
+
+          <div style="display:flex;gap:10px;margin-bottom:28px">
+            <sc-for list="{{ quickActions }}" as="qa" hint-placeholder-count="4">
+              <button onClick="{{ qa.onClick }}" style="flex:1;background:none;border:none;display:flex;flex-direction:column;align-items:center;gap:9px;cursor:pointer;padding:0">
+                <span style="width:58px;height:58px;border-radius:19px;background:{{ qa.bg }};color:{{ qa.fg }};display:flex;align-items:center;justify-content:center;box-shadow:0 10px 22px -10px rgba(58,43,74,.5)">
+                  <i data-lucide="{{ qa.icon }}" style="width:23px;height:23px"></i>
+                </span>
+                <span style="font-size:12px;font-weight:600;color:#2a2431">{{ qa.label }}</span>
+              </button>
+            </sc-for>
+          </div>
+
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
+            <span style="font-size:17px;font-weight:700;color:#2a2431">My accounts</span>
+            <button onClick="{{ goAccounts }}" style="background:none;border:none;font-size:13px;font-weight:600;color:#bd93ab;cursor:pointer;font-family:inherit">View all</button>
+          </div>
+          <div style="margin-bottom:28px">
+            <sc-for list="{{ homeStack }}" as="ac" hint-placeholder-count="4">
+              <div onClick="{{ ac.onOpen }}" style="background:{{ ac.color }};color:{{ ac.text }};border:{{ ac.border }};border-radius:22px;padding:16px 18px;margin-bottom:12px;display:flex;justify-content:space-between;align-items:center;cursor:pointer;box-shadow:{{ ac.shadow }}">
+                <div style="display:flex;align-items:center;gap:14px">
+                  <span style="width:44px;height:44px;border-radius:14px;background:{{ ac.accent }};display:flex;align-items:center;justify-content:center;flex:none">
+                    <i data-lucide="{{ ac.icon }}" style="width:20px;height:20px"></i>
+                  </span>
+                  <div>
+                    <div style="font-size:14px;font-weight:700">{{ ac.name }}</div>
+                    <div style="font-size:12px;opacity:.7">{{ ac.number }}</div>
+                  </div>
+                </div>
+                <div style="font-family:'Sora';font-size:16px;font-weight:700">{{ ac.balanceFmt }}</div>
+              </div>
+            </sc-for>
+          </div>
+
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+            <span style="font-size:17px;font-weight:700;color:#2a2431">Recent activity</span>
+            <button style="background:none;border:none;font-size:13px;font-weight:600;color:#bd93ab;cursor:pointer;font-family:inherit">View all</button>
+          </div>
+          <div style="background:#fff;border-radius:22px;padding:4px 16px;box-shadow:0 12px 34px -20px rgba(58,43,74,.5)">
+            <sc-for list="{{ homeTx }}" as="tx" hint-placeholder-count="4">
+              <div style="display:flex;align-items:center;gap:14px;padding:14px 0;border-bottom:{{ tx.border }}">
+                <span style="width:42px;height:42px;border-radius:14px;background:{{ tx.iconBg }};color:{{ tx.iconFg }};display:flex;align-items:center;justify-content:center;flex:none">
+                  <i data-lucide="{{ tx.icon }}" style="width:19px;height:19px"></i>
+                </span>
+                <div style="flex:1;min-width:0">
+                  <div style="font-size:14px;font-weight:600;color:#2a2431">{{ tx.title }}</div>
+                  <div style="font-size:12px;color:#8a8090">{{ tx.time }}</div>
+                </div>
+                <div style="font-family:'Sora';font-size:14px;font-weight:700;color:{{ tx.amtColor }}">{{ tx.amountFmt }}</div>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+        </sc-if>
+
+        <!-- ACCOUNTS -->
+        <sc-if value="{{ isAccounts }}" hint-placeholder-val="{{ false }}">
+        <div style="padding:8px 22px 120px;animation:scrin .3s ease">
+          <div style="margin-bottom:22px">
+            <div style="font-size:24px;font-weight:800;color:#2a2431;letter-spacing:-.5px">My accounts</div>
+            <div style="font-size:13px;color:#8a8090;margin-top:2px">5 accounts · net worth {{ netWorthText }}</div>
+          </div>
+          <sc-for list="{{ accounts }}" as="ac" hint-placeholder-count="5">
+            <div onClick="{{ ac.onOpen }}" style="background:{{ ac.color }};color:{{ ac.text }};border:{{ ac.border }};border-radius:24px;padding:20px;margin-bottom:14px;cursor:pointer;box-shadow:{{ ac.shadow }}">
+              <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:18px">
+                <div style="display:flex;gap:13px;align-items:center">
+                  <span style="width:44px;height:44px;border-radius:14px;background:{{ ac.accent }};display:flex;align-items:center;justify-content:center;flex:none">
+                    <i data-lucide="{{ ac.icon }}" style="width:20px;height:20px"></i>
+                  </span>
+                  <div>
+                    <div style="font-size:15px;font-weight:700">{{ ac.name }}</div>
+                    <div style="font-size:12px;opacity:.7">{{ ac.number }}</div>
+                  </div>
+                </div>
+                <i data-lucide="chevron-right" style="width:20px;height:20px;opacity:.6"></i>
+              </div>
+              <div style="font-size:12px;opacity:.7">{{ ac.balanceLabel }}</div>
+              <div style="font-family:'Sora';font-size:26px;font-weight:700;letter-spacing:-.5px">{{ ac.balanceFmt }}</div>
+            </div>
+          </sc-for>
+          <button style="width:100%;border:1.5px dashed #c4a9b7;background:rgba(255,255,255,.4);color:#3a2b4a;border-radius:20px;padding:18px;font-family:inherit;font-size:14px;font-weight:700;display:flex;align-items:center;justify-content:center;gap:8px;cursor:pointer">
+            <i data-lucide="plus" style="width:18px;height:18px"></i> Open new account
+          </button>
+        </div>
+        </sc-if>
+
+        <!-- ACCOUNT DETAIL -->
+        <sc-if value="{{ isDetail }}" hint-placeholder-val="{{ false }}">
+        <div style="padding:6px 22px 120px;animation:scrin .3s ease">
+          <div style="display:flex;align-items:center;gap:14px;margin-bottom:20px">
+            <button onClick="{{ back }}" style="width:42px;height:42px;border-radius:14px;background:#fff;border:none;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 14px rgba(58,43,74,.1);cursor:pointer">
+              <i data-lucide="arrow-left" style="width:20px;height:20px;color:#3a2b4a"></i>
+            </button>
+            <span style="font-size:18px;font-weight:700;color:#2a2431">{{ detailAcct.name }}</span>
+          </div>
+          <div style="background:{{ detailAcct.color }};color:{{ detailAcct.text }};border:{{ detailAcct.border }};border-radius:26px;padding:24px;box-shadow:{{ detailAcct.shadow }};margin-bottom:16px">
+            <div style="font-size:13px;opacity:.72">{{ detailAcct.balanceLabel }}</div>
+            <div style="font-family:'Sora';font-size:34px;font-weight:700;letter-spacing:-1px;margin:6px 0 4px">{{ detailAcct.balanceFmt }}</div>
+            <div style="font-size:13px;opacity:.72">{{ detailAcct.number }}</div>
+          </div>
+          <div style="display:flex;gap:10px;margin-bottom:22px">
+            <button onClick="{{ startCashin }}" style="flex:1;background:#fff;border:none;border-radius:16px;padding:14px 0;display:flex;flex-direction:column;align-items:center;gap:6px;box-shadow:0 8px 22px -14px rgba(58,43,74,.5);cursor:pointer;font-family:inherit">
+              <i data-lucide="arrow-down-left" style="width:20px;height:20px;color:#3f7d54"></i>
+              <span style="font-size:12px;font-weight:700;color:#2a2431">Cash In</span>
+            </button>
+            <button onClick="{{ startCashout }}" style="flex:1;background:#fff;border:none;border-radius:16px;padding:14px 0;display:flex;flex-direction:column;align-items:center;gap:6px;box-shadow:0 8px 22px -14px rgba(58,43,74,.5);cursor:pointer;font-family:inherit">
+              <i data-lucide="arrow-up-right" style="width:20px;height:20px;color:#b0546a"></i>
+              <span style="font-size:12px;font-weight:700;color:#2a2431">Cash Out</span>
+            </button>
+            <button style="flex:1;background:#fff;border:none;border-radius:16px;padding:14px 0;display:flex;flex-direction:column;align-items:center;gap:6px;box-shadow:0 8px 22px -14px rgba(58,43,74,.5);cursor:pointer;font-family:inherit">
+              <i data-lucide="file-text" style="width:20px;height:20px;color:#3a2b4a"></i>
+              <span style="font-size:12px;font-weight:700;color:#2a2431">Statement</span>
+            </button>
+          </div>
+          <div style="display:flex;gap:12px;margin-bottom:22px">
+            <div style="flex:1;background:#fff;border-radius:18px;padding:16px">
+              <div style="font-size:12px;color:#8a8090;margin-bottom:6px">Money in · Jul</div>
+              <div style="font-family:'Sora';font-size:17px;font-weight:700;color:#3f7d54">{{ inMonthText }}</div>
+            </div>
+            <div style="flex:1;background:#fff;border-radius:18px;padding:16px">
+              <div style="font-size:12px;color:#8a8090;margin-bottom:6px">Money out · Jul</div>
+              <div style="font-family:'Sora';font-size:17px;font-weight:700;color:#b0546a">{{ outMonthText }}</div>
+            </div>
+          </div>
+          <div style="font-size:16px;font-weight:700;color:#2a2431;margin-bottom:12px">Transactions</div>
+          <div style="background:#fff;border-radius:22px;padding:4px 16px;box-shadow:0 12px 34px -20px rgba(58,43,74,.5)">
+            <sc-for list="{{ recentTx }}" as="tx" hint-placeholder-count="5">
+              <div style="display:flex;align-items:center;gap:14px;padding:14px 0;border-bottom:{{ tx.border }}">
+                <span style="width:42px;height:42px;border-radius:14px;background:{{ tx.iconBg }};color:{{ tx.iconFg }};display:flex;align-items:center;justify-content:center;flex:none">
+                  <i data-lucide="{{ tx.icon }}" style="width:19px;height:19px"></i>
+                </span>
+                <div style="flex:1;min-width:0">
+                  <div style="font-size:14px;font-weight:600;color:#2a2431">{{ tx.title }}</div>
+                  <div style="font-size:12px;color:#8a8090">{{ tx.sub }} · {{ tx.time }}</div>
+                </div>
+                <div style="font-family:'Sora';font-size:14px;font-weight:700;color:{{ tx.amtColor }}">{{ tx.amountFmt }}</div>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+        </sc-if>
+
+        <!-- TRANSACT (amount) -->
+        <sc-if value="{{ isTransact }}" hint-placeholder-val="{{ false }}">
+        <div style="height:100%;display:flex;flex-direction:column;padding:6px 22px 22px;animation:scrin .3s ease">
+          <div style="display:flex;align-items:center;gap:14px;margin-bottom:20px">
+            <button onClick="{{ back }}" style="width:42px;height:42px;border-radius:14px;background:#fff;border:none;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 14px rgba(58,43,74,.1);cursor:pointer">
+              <i data-lucide="arrow-left" style="width:20px;height:20px;color:#3a2b4a"></i>
+            </button>
+            <span style="font-size:18px;font-weight:700;color:#2a2431">{{ flowMeta.title }}</span>
+          </div>
+
+          <sc-if value="{{ showRecipient }}" hint-placeholder-val="{{ false }}">
+          <div style="background:#fff;border-radius:18px;padding:15px 16px;display:flex;align-items:center;gap:13px;margin-bottom:12px;box-shadow:0 8px 22px -16px rgba(58,43,74,.5)">
+            <span style="width:42px;height:42px;border-radius:12px;background:#f2e7ed;color:#bd93ab;display:flex;align-items:center;justify-content:center"><i data-lucide="{{ flowMeta.recIcon }}" style="width:20px;height:20px"></i></span>
+            <div style="flex:1"><div style="font-size:11px;color:#8a8090">To</div><div style="font-size:14px;font-weight:700;color:#2a2431">{{ flowMeta.recName }}</div></div>
+            <span style="font-size:12px;color:#8a8090">{{ flowMeta.recSub }}</span>
+          </div>
+          </sc-if>
+
+          <div style="background:#fff;border-radius:18px;padding:15px 16px;display:flex;align-items:center;gap:13px;margin-bottom:26px;box-shadow:0 8px 22px -16px rgba(58,43,74,.5)">
+            <span style="width:42px;height:42px;border-radius:12px;background:#efe6ea;color:#3a2b4a;display:flex;align-items:center;justify-content:center"><i data-lucide="wallet" style="width:20px;height:20px"></i></span>
+            <div style="flex:1"><div style="font-size:11px;color:#8a8090">From</div><div style="font-size:14px;font-weight:700;color:#2a2431">{{ flowMeta.from }}</div></div>
+            <i data-lucide="chevron-down" style="width:18px;height:18px;color:#8a8090"></i>
+          </div>
+
+          <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center">
+            <div style="font-size:13px;color:#8a8090;margin-bottom:8px">Enter amount</div>
+            <div style="font-family:'Sora';font-size:46px;font-weight:700;color:#2a2431;letter-spacing:-1.5px">{{ amountBig }}</div>
+            <div style="display:flex;gap:8px;margin-top:22px">
+              <sc-for list="{{ chipAmounts }}" as="c" hint-placeholder-count="4">
+                <button onClick="{{ c.onClick }}" style="background:#fff;border:none;border-radius:20px;padding:8px 15px;font-family:inherit;font-size:13px;font-weight:700;color:#3a2b4a;box-shadow:0 4px 12px -8px rgba(58,43,74,.5);cursor:pointer">{{ c.label }}</button>
+              </sc-for>
+            </div>
+          </div>
+
+          <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin:18px 0 16px">
+            <sc-for list="{{ padKeys }}" as="pk" hint-placeholder-count="12">
+              <button onClick="{{ pk.onPress }}" style="height:58px;border:none;background:transparent;font-family:'Sora';font-size:24px;font-weight:600;color:#2a2431;border-radius:16px;cursor:pointer;display:flex;align-items:center;justify-content:center" style-active="background:#e9dce4">
+                <sc-if value="{{ pk.isBack }}" hint-placeholder-val="{{ false }}"><i data-lucide="delete" style="width:24px;height:24px"></i></sc-if>
+                <sc-if value="{{ pk.showLabel }}" hint-placeholder-val="{{ true }}">{{ pk.label }}</sc-if>
+              </button>
+            </sc-for>
+          </div>
+
+          <button onClick="{{ toPin }}" style="width:100%;background:{{ continueBg }};color:{{ continueFg }};border:none;border-radius:20px;padding:18px;font-family:inherit;font-size:16px;font-weight:700;cursor:pointer;box-shadow:0 14px 30px -14px rgba(58,43,74,.6)">Continue</button>
+        </div>
+        </sc-if>
+
+        <!-- PIN -->
+        <sc-if value="{{ isPin }}" hint-placeholder-val="{{ false }}">
+        <div style="height:100%;display:flex;flex-direction:column;padding:6px 22px 22px;animation:scrin .3s ease">
+          <div style="display:flex;align-items:center;gap:14px;margin-bottom:10px">
+            <button onClick="{{ back }}" style="width:42px;height:42px;border-radius:14px;background:#fff;border:none;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 14px rgba(58,43,74,.1);cursor:pointer">
+              <i data-lucide="arrow-left" style="width:20px;height:20px;color:#3a2b4a"></i>
+            </button>
+          </div>
+          <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center">
+            <span style="width:72px;height:72px;border-radius:50%;background:#3a2b4a;color:#fff;display:flex;align-items:center;justify-content:center;margin-bottom:22px"><i data-lucide="lock" style="width:30px;height:30px"></i></span>
+            <div style="font-size:20px;font-weight:800;color:#2a2431">Enter your PIN</div>
+            <div style="font-size:13px;color:#8a8090;margin-top:6px;text-align:center;max-width:250px">{{ pinSub }}</div>
+            <div style="display:flex;gap:16px;justify-content:center;margin:34px 0">
+              <sc-for list="{{ pinDots }}" as="d" hint-placeholder-count="5">
+                <span style="width:16px;height:16px;border-radius:50%;background:{{ d.color }};transition:background .15s"></span>
+              </sc-for>
+            </div>
+          </div>
+          <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px">
+            <sc-for list="{{ pinKeys }}" as="pk" hint-placeholder-count="12">
+              <button onClick="{{ pk.onPress }}" style="height:60px;border:none;background:transparent;font-family:'Sora';font-size:24px;font-weight:600;color:#2a2431;border-radius:16px;cursor:{{ pk.cursor }};display:flex;align-items:center;justify-content:center" style-active="background:#e9dce4">
+                <sc-if value="{{ pk.isBack }}" hint-placeholder-val="{{ false }}"><i data-lucide="delete" style="width:24px;height:24px"></i></sc-if>
+                <sc-if value="{{ pk.showLabel }}" hint-placeholder-val="{{ true }}">{{ pk.label }}</sc-if>
+              </button>
+            </sc-for>
+          </div>
+        </div>
+        </sc-if>
+
+        <!-- SUCCESS -->
+        <sc-if value="{{ isSuccess }}" hint-placeholder-val="{{ false }}">
+        <div style="height:100%;display:flex;flex-direction:column;padding:6px 22px 22px;animation:scrin .3s ease">
+          <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center">
+            <span style="width:96px;height:96px;border-radius:50%;background:#e9f3ec;color:#3f7d54;display:flex;align-items:center;justify-content:center;margin-bottom:24px;animation:pop .45s ease"><i data-lucide="check" style="width:48px;height:48px"></i></span>
+            <div style="font-size:24px;font-weight:800;color:#2a2431">Payment successful</div>
+            <div style="font-size:14px;color:#8a8090;margin-top:8px;max-width:270px">{{ successMsg }}</div>
+            <div style="font-family:'Sora';font-size:40px;font-weight:700;color:#2a2431;letter-spacing:-1px;margin:20px 0 26px">{{ amountBig }}</div>
+            <div style="width:100%;background:#fff;border-radius:20px;padding:6px 18px;box-shadow:0 12px 34px -20px rgba(58,43,74,.5);text-align:left">
+              <div style="display:flex;justify-content:space-between;padding:13px 0;border-bottom:1px solid #f0e8ec"><span style="font-size:13px;color:#8a8090">From</span><span style="font-size:13px;font-weight:700;color:#2a2431">{{ flowMeta.from }}</span></div>
+              <div style="display:flex;justify-content:space-between;padding:13px 0;border-bottom:1px solid #f0e8ec"><span style="font-size:13px;color:#8a8090">Reference</span><span style="font-size:13px;font-weight:700;color:#2a2431">TXN 8842 1907</span></div>
+              <div style="display:flex;justify-content:space-between;padding:13px 0"><span style="font-size:13px;color:#8a8090">Date</span><span style="font-size:13px;font-weight:700;color:#2a2431">18 Jul 2026, 9:41 AM</span></div>
+            </div>
+          </div>
+          <button onClick="{{ done }}" style="width:100%;background:#3a2b4a;color:#fff;border:none;border-radius:20px;padding:18px;font-family:inherit;font-size:16px;font-weight:700;cursor:pointer;margin-bottom:10px;box-shadow:0 14px 30px -14px rgba(58,43,74,.6)">Done</button>
+          <button style="width:100%;background:transparent;color:#3a2b4a;border:none;padding:6px;font-family:inherit;font-size:14px;font-weight:700;cursor:pointer">Share receipt</button>
+        </div>
+        </sc-if>
+
+        <!-- BILLS -->
+        <sc-if value="{{ isBills }}" hint-placeholder-val="{{ false }}">
+        <div style="padding:8px 22px 120px;animation:scrin .3s ease">
+          <div style="font-size:24px;font-weight:800;color:#2a2431;letter-spacing:-.5px;margin-bottom:18px">Pay bills</div>
+          <div style="display:flex;align-items:center;gap:10px;background:#fff;border-radius:16px;padding:14px 16px;margin-bottom:24px;box-shadow:0 8px 22px -16px rgba(58,43,74,.5)">
+            <i data-lucide="search" style="width:19px;height:19px;color:#8a8090"></i>
+            <span style="font-size:14px;color:#a89ba4">Search billers</span>
+          </div>
+          <div style="font-size:15px;font-weight:700;color:#2a2431;margin-bottom:14px">Categories</div>
+          <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:14px 8px;margin-bottom:28px">
+            <sc-for list="{{ billers }}" as="b" hint-placeholder-count="8">
+              <button onClick="{{ b.onClick }}" style="background:none;border:none;display:flex;flex-direction:column;align-items:center;gap:8px;cursor:pointer;padding:0">
+                <span style="width:56px;height:56px;border-radius:18px;background:#fff;color:#3a2b4a;display:flex;align-items:center;justify-content:center;box-shadow:0 8px 20px -12px rgba(58,43,74,.5)"><i data-lucide="{{ b.icon }}" style="width:22px;height:22px"></i></span>
+                <span style="font-size:11px;font-weight:600;color:#2a2431;text-align:center">{{ b.name }}</span>
+              </button>
+            </sc-for>
+          </div>
+          <div style="font-size:15px;font-weight:700;color:#2a2431;margin-bottom:12px">Recent billers</div>
+          <div style="background:#fff;border-radius:22px;padding:4px 16px;box-shadow:0 12px 34px -20px rgba(58,43,74,.5)">
+            <div style="display:flex;align-items:center;gap:14px;padding:14px 0;border-bottom:1px solid #f0e8ec">
+              <span style="width:42px;height:42px;border-radius:14px;background:#f7edf1;color:#b0546a;display:flex;align-items:center;justify-content:center"><i data-lucide="zap" style="width:19px;height:19px"></i></span>
+              <div style="flex:1"><div style="font-size:14px;font-weight:600;color:#2a2431">DESCO Electricity</div><div style="font-size:12px;color:#8a8090">Acct 4471002 · due 22 Jul</div></div>
+              <button onClick="{{ startBill }}" style="background:#3a2b4a;color:#fff;border:none;border-radius:12px;padding:8px 14px;font-family:inherit;font-size:12px;font-weight:700;cursor:pointer">Pay</button>
+            </div>
+            <div style="display:flex;align-items:center;gap:14px;padding:14px 0">
+              <span style="width:42px;height:42px;border-radius:14px;background:#eef1f7;color:#2b3a5b;display:flex;align-items:center;justify-content:center"><i data-lucide="wifi" style="width:19px;height:19px"></i></span>
+              <div style="flex:1"><div style="font-size:14px;font-weight:600;color:#2a2431">Link3 Internet</div><div style="font-size:12px;color:#8a8090">ID bd-7781 · due 25 Jul</div></div>
+              <button onClick="{{ startBill }}" style="background:#3a2b4a;color:#fff;border:none;border-radius:12px;padding:8px 14px;font-family:inherit;font-size:12px;font-weight:700;cursor:pointer">Pay</button>
+            </div>
+          </div>
+        </div>
+        </sc-if>
+
+        <!-- SCAN -->
+        <sc-if value="{{ isScan }}" hint-placeholder-val="{{ false }}">
+        <div style="height:100%;display:flex;flex-direction:column;padding:6px 22px 120px;animation:scrin .3s ease">
+          <div style="display:flex;align-items:center;gap:14px;margin-bottom:24px">
+            <button onClick="{{ goHome }}" style="width:42px;height:42px;border-radius:14px;background:#fff;border:none;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 14px rgba(58,43,74,.1);cursor:pointer">
+              <i data-lucide="arrow-left" style="width:20px;height:20px;color:#3a2b4a"></i>
+            </button>
+            <span style="font-size:18px;font-weight:700;color:#2a2431">Scan to pay</span>
+          </div>
+          <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center">
+            <div style="position:relative;width:250px;height:250px;background:#1a1420;border-radius:28px;display:flex;align-items:center;justify-content:center;overflow:hidden">
+              <div style="position:absolute;left:20px;top:20px;width:36px;height:36px;border-left:4px solid #d8c24a;border-top:4px solid #d8c24a;border-radius:6px 0 0 0"></div>
+              <div style="position:absolute;right:20px;top:20px;width:36px;height:36px;border-right:4px solid #d8c24a;border-top:4px solid #d8c24a;border-radius:0 6px 0 0"></div>
+              <div style="position:absolute;left:20px;bottom:20px;width:36px;height:36px;border-left:4px solid #d8c24a;border-bottom:4px solid #d8c24a;border-radius:0 0 0 6px"></div>
+              <div style="position:absolute;right:20px;bottom:20px;width:36px;height:36px;border-right:4px solid #d8c24a;border-bottom:4px solid #d8c24a;border-radius:0 0 6px 0"></div>
+              <i data-lucide="qr-code" style="width:90px;height:90px;color:rgba(255,255,255,.25)"></i>
+            </div>
+            <div style="font-size:14px;color:#8a8090;margin-top:24px;text-align:center;max-width:250px">Point the camera at a merchant QR code to pay instantly</div>
+          </div>
+          <button style="width:100%;background:#fff;color:#3a2b4a;border:none;border-radius:20px;padding:17px;font-family:inherit;font-size:15px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:9px;box-shadow:0 12px 30px -18px rgba(58,43,74,.5)">
+            <i data-lucide="qr-code" style="width:19px;height:19px"></i> Show my QR
+          </button>
+        </div>
+        </sc-if>
+
+        <!-- PROFILE -->
+        <sc-if value="{{ isProfile }}" hint-placeholder-val="{{ false }}">
+        <div style="padding:8px 22px 120px;animation:scrin .3s ease">
+          <div style="display:flex;flex-direction:column;align-items:center;text-align:center;margin-bottom:26px">
+            <div style="width:84px;height:84px;border-radius:50%;background:linear-gradient(135deg,#3a2b4a,#2b3a5b);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:28px;margin-bottom:14px">AR</div>
+            <div style="font-size:20px;font-weight:800;color:#2a2431">Ayesha Rahman</div>
+            <div style="font-size:13px;color:#8a8090;margin-top:2px">+880 1712-345678</div>
+            <span style="margin-top:10px;background:#e9f3ec;color:#3f7d54;font-size:11px;font-weight:800;padding:5px 12px;border-radius:20px;display:inline-flex;align-items:center;gap:5px"><i data-lucide="badge-check" style="width:13px;height:13px"></i> Business · Verified</span>
+          </div>
+          <div style="background:#fff;border-radius:22px;padding:4px 18px;box-shadow:0 12px 34px -20px rgba(58,43,74,.5);margin-bottom:16px">
+            <sc-for list="{{ settingsItems }}" as="it" hint-placeholder-count="7">
+              <div style="display:flex;align-items:center;gap:14px;padding:15px 0;border-bottom:{{ it.border }};cursor:pointer">
+                <span style="width:40px;height:40px;border-radius:12px;background:#efe6ea;color:#3a2b4a;display:flex;align-items:center;justify-content:center"><i data-lucide="{{ it.icon }}" style="width:19px;height:19px"></i></span>
+                <span style="flex:1;font-size:14px;font-weight:600;color:#2a2431">{{ it.label }}</span>
+                <i data-lucide="chevron-right" style="width:18px;height:18px;color:#c4b6bf"></i>
+              </div>
+            </sc-for>
+          </div>
+          <button style="width:100%;background:transparent;border:1.5px solid #e6d3db;color:#b0546a;border-radius:18px;padding:16px;font-family:inherit;font-size:14px;font-weight:700;display:flex;align-items:center;justify-content:center;gap:8px;cursor:pointer">
+            <i data-lucide="log-out" style="width:18px;height:18px"></i> Log out
+          </button>
+        </div>
+        </sc-if>
+
+      </div>
+
+      <!-- BOTTOM NAV -->
+      <sc-if value="{{ showNav }}" hint-placeholder-val="{{ true }}">
+      <div style="position:absolute;left:0;right:0;bottom:0;height:80px;background:rgba(255,255,255,.94);backdrop-filter:blur(14px);border-top:1px solid #f0e8ec;display:flex;align-items:flex-start;justify-content:space-around;padding:12px 20px 0;z-index:20">
+        <button onClick="{{ goHome }}" style="background:none;border:none;display:flex;flex-direction:column;align-items:center;gap:5px;cursor:pointer;flex:1;padding:0">
+          <i data-lucide="home" style="width:23px;height:23px;color:{{ cHome }}"></i>
+          <span style="font-size:10px;font-weight:700;color:{{ cHome }}">Home</span>
+        </button>
+        <button onClick="{{ goAccounts }}" style="background:none;border:none;display:flex;flex-direction:column;align-items:center;gap:5px;cursor:pointer;flex:1;padding:0">
+          <i data-lucide="wallet" style="width:23px;height:23px;color:{{ cAccounts }}"></i>
+          <span style="font-size:10px;font-weight:700;color:{{ cAccounts }}">Accounts</span>
+        </button>
+        <button onClick="{{ goScan }}" style="background:linear-gradient(135deg,#3a2b4a,#2b3a5b);border:4px solid #fff;width:60px;height:60px;border-radius:50%;margin-top:-26px;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 14px 26px -8px rgba(58,43,74,.6);flex:none">
+          <i data-lucide="scan-line" style="width:26px;height:26px;color:#fff"></i>
+        </button>
+        <button onClick="{{ goBills }}" style="background:none;border:none;display:flex;flex-direction:column;align-items:center;gap:5px;cursor:pointer;flex:1;padding:0">
+          <i data-lucide="receipt" style="width:23px;height:23px;color:{{ cBills }}"></i>
+          <span style="font-size:10px;font-weight:700;color:{{ cBills }}">Bills</span>
+        </button>
+        <button onClick="{{ goProfile }}" style="background:none;border:none;display:flex;flex-direction:column;align-items:center;gap:5px;cursor:pointer;flex:1;padding:0">
+          <i data-lucide="user" style="width:23px;height:23px;color:{{ cProfile }}"></i>
+          <span style="font-size:10px;font-weight:700;color:{{ cProfile }}">Profile</span>
+        </button>
+      </div>
+      </sc-if>
+
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{
+ &quot;$preview&quot;:{&quot;width&quot;:540,&quot;height&quot;:956},
+ &quot;currency&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;৳&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Localization&quot;},
+ &quot;numberFormat&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;en-IN&quot;,&quot;en-US&quot;],&quot;default&quot;:&quot;en-IN&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Localization&quot;},
+ &quot;startHidden&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Behavior&quot;}
+}">
+class Component extends DCLogic {
+  state = { screen:'home', prev:'home', balanceHidden:false, amountStr:'', pinStr:'', flowType:'cashin', detail:0 };
+
+  componentDidMount(){ if(this.props.startHidden) this.setState({balanceHidden:true}); this._icons(); }
+  componentDidUpdate(){ this._icons(); }
+  _icons(){
+    const run=()=>{ if(window.lucide){ try{window.lucide.createIcons();}catch(e){} return true; } return false; };
+    if(!run() && !this._poll){ this._poll=setInterval(()=>{ if(run()){ clearInterval(this._poll); this._poll=null; } },120); }
+  }
+
+  go(s){ this.setState(st=>({ prev:st.screen, screen:s })); }
+  back(){ this.setState(st=>({ screen:st.prev==='transact'?'home':st.prev })); }
+  toggleBal(){ this.setState(st=>({ balanceHidden:!st.balanceHidden })); }
+  openDetail(i){ this.setState(st=>({ prev:st.screen, detail:i, screen:'detail' })); }
+  startFlow(type){ this.setState(st=>({ prev:st.screen, flowType:type, amountStr:'', screen:'transact' })); }
+  key(k){
+    this.setState(st=>{
+      let a=st.amountStr;
+      if(k==='back') a=a.slice(0,-1);
+      else if(k==='.'){ if(!a.includes('.')) a=(a||'0')+'.'; }
+      else { if(a.includes('.')&&a.split('.')[1].length>=2) return {}; if(a.replace('.','').length>=9) return {}; a=a+k; }
+      return { amountStr:a };
+    });
+  }
+  parseAmt(){ return parseFloat(this.state.amountStr||'0')||0; }
+  toPin(){ if(this.parseAmt()>0) this.setState({ pinStr:'', screen:'pin', prev:'transact' }); }
+  pin(k){
+    this.setState(st=>{
+      let p=st.pinStr;
+      if(k==='back') p=p.slice(0,-1);
+      else if(p.length<5) p=p+k;
+      if(p.length===5) setTimeout(()=>this.setState({screen:'success'}),260);
+      return { pinStr:p };
+    });
+  }
+  done(){ this.setState({ screen:'home', amountStr:'', pinStr:'' }); }
+
+  renderVals(){
+    const s=this.state, p=this.props;
+    const cur=p.currency||'৳', nf=p.numberFormat||'en-IN';
+    const fmt=n=>n.toLocaleString(nf,{minimumFractionDigits:2,maximumFractionDigits:2});
+    const money=n=>cur+' '+fmt(n);
+
+    const shadow='0 14px 30px -18px rgba(58,43,74,.6)';
+    const accountsRaw=[
+      {name:'Savings Account', number:'•••• 5115', balance:520400, color:'#2b3a5b', text:'#ffffff', icon:'piggy-bank', accent:'rgba(255,255,255,.15)', border:'none', shadow, balanceLabel:'Available balance'},
+      {name:'Current Account', number:'•••• 0336', balance:284830.75, color:'#3a2b4a', text:'#ffffff', icon:'landmark', accent:'rgba(255,255,255,.15)', border:'none', shadow, balanceLabel:'Available balance'},
+      {name:'Fixed Deposit', number:'Matures 12 Dec 2026', balance:300000, color:'#d8c24a', text:'#2a2431', icon:'lock', accent:'rgba(0,0,0,.09)', border:'none', shadow, balanceLabel:'Deposit value'},
+      {name:'e-Wallet', number:'•••• 1018', balance:40000, color:'#bd93ab', text:'#2a2431', icon:'wallet', accent:'rgba(255,255,255,.28)', border:'none', shadow, balanceLabel:'Available balance'},
+      {name:'Business Loan', number:'Outstanding', balance:125000, color:'#ffffff', text:'#2a2431', icon:'banknote', accent:'#f4ebee', border:'1.5px solid #ece0e6', shadow:'0 10px 26px -18px rgba(58,43,74,.4)', balanceLabel:'Outstanding balance'},
+    ];
+    const accounts=accountsRaw.map((a,i)=>({ ...a, balanceFmt:money(a.balance), onOpen:()=>this.openDetail(i) }));
+    const total=520400+284830.75+40000;
+    const netWorth=520400+284830.75+300000+40000-125000;
+
+    const txRaw=[
+      {title:'Cash In via Agent', sub:'Agent 4471', time:'Today, 2:14 PM', amount:5000, dir:'in', icon:'arrow-down-left'},
+      {title:'Rahim Traders', sub:'Supplier', time:'Today, 11:03 AM', amount:12500, dir:'out', icon:'arrow-up-right'},
+      {title:'Karim Fabrics', sub:'Customer', time:'Yesterday', amount:18400, dir:'in', icon:'arrow-down-left'},
+      {title:'DESCO Electricity', sub:'Bill', time:'Yesterday', amount:3240, dir:'out', icon:'zap'},
+      {title:'Staff Salary', sub:'6 recipients', time:'15 Jul', amount:45000, dir:'out', icon:'users'},
+    ];
+    const recentTx=txRaw.map((t,i)=>({ ...t,
+      amountFmt:(t.dir==='in'?'+ ':'- ')+money(t.amount),
+      amtColor:t.dir==='in'?'#3f7d54':'#b0546a',
+      iconBg:t.dir==='in'?'#e9f3ec':'#f7edf1',
+      iconFg:t.dir==='in'?'#3f7d54':'#b0546a',
+      border:i===txRaw.length-1?'none':'1px solid #f0e8ec',
+    }));
+    const homeTx=recentTx.slice(0,4).map((t,i,arr)=>({ ...t, border:i===arr.length-1?'none':'1px solid #f0e8ec' }));
+
+    const quickActions=[
+      {label:'Cash In', icon:'arrow-down-left', bg:'#d8c24a', fg:'#2a2431', onClick:()=>this.startFlow('cashin')},
+      {label:'Cash Out', icon:'arrow-up-right', bg:'#3a2b4a', fg:'#ffffff', onClick:()=>this.startFlow('cashout')},
+      {label:'Transfer', icon:'arrow-right-left', bg:'#2b3a5b', fg:'#ffffff', onClick:()=>this.startFlow('transfer')},
+      {label:'Bills', icon:'receipt', bg:'#bd93ab', fg:'#2a2431', onClick:()=>this.go('bills')},
+    ];
+
+    const billers=[
+      {name:'Electricity',icon:'zap'},{name:'Gas',icon:'flame'},{name:'Water',icon:'droplet'},{name:'Internet',icon:'wifi'},
+      {name:'Mobile',icon:'smartphone'},{name:'Card Bill',icon:'credit-card'},{name:'Tuition',icon:'graduation-cap'},{name:'Insurance',icon:'shield-check'},
+    ].map(b=>({ ...b, onClick:()=>this.startFlow('bill') }));
+
+    const settingsRaw=[
+      {label:'Personal information',icon:'user'},
+      {label:'Security & PIN',icon:'shield-check'},
+      {label:'Linked bank accounts',icon:'landmark'},
+      {label:'Cards',icon:'credit-card'},
+      {label:'Notifications',icon:'bell'},
+      {label:'Help & support',icon:'life-buoy'},
+      {label:'About',icon:'info'},
+    ];
+    const settingsItems=settingsRaw.map((it,i)=>({ ...it, border:i===settingsRaw.length-1?'none':'1px solid #f0e8ec' }));
+
+    const flows={
+      cashin:{title:'Cash In', from:'Savings Account · •••• 5115'},
+      cashout:{title:'Cash Out', from:'Current Account · •••• 0336'},
+      transfer:{title:'Send Money', from:'Current Account · •••• 0336', recName:'Karim Fabrics', recSub:'01712-345678', recIcon:'user'},
+      bill:{title:'Pay Bill', from:'e-Wallet · •••• 1018', recName:'DESCO Electricity', recSub:'Acct 4471002', recIcon:'zap'},
+    };
+    const flowMeta=flows[s.flowType]||flows.cashin;
+    const showRecipient=s.flowType==='transfer'||s.flowType==='bill';
+
+    const grp=str=>{ if(!str) return '0'; let [i,d]=str.split('.'); i=parseInt(i||'0',10).toLocaleString(nf); return d!==undefined?i+'.'+d:i; };
+    const amountBig=cur+' '+grp(s.amountStr);
+
+    const chipAmounts=[500,1000,5000,10000].map(v=>({ label:cur+' '+v.toLocaleString(nf), onClick:()=>this.setState({amountStr:String(v)}) }));
+
+    const padKeys=['1','2','3','4','5','6','7','8','9','.','0','back'].map(k=>({ label:k, isBack:k==='back', showLabel:k!=='back', onPress:()=>this.key(k) }));
+    const pinKeys=['1','2','3','4','5','6','7','8','9','','0','back'].map(k=>({ label:k, isBack:k==='back', showLabel:k!==''&&k!=='back', empty:k==='', cursor:k===''?'default':'pointer', onPress:k===''?()=>{}:()=>this.pin(k) }));
+    const pinDots=[0,1,2,3,4].map(i=>({ color:i<s.pinStr.length?'#3a2b4a':'#e0d3da' }));
+
+    const amtOk=this.parseAmt()>0;
+    const navC=v=>s.screen===v?'#3a2b4a':'#c0b2bb';
+
+    return {
+      isHome:s.screen==='home', isAccounts:s.screen==='accounts', isDetail:s.screen==='detail',
+      isTransact:s.screen==='transact', isPin:s.screen==='pin', isSuccess:s.screen==='success',
+      isBills:s.screen==='bills', isScan:s.screen==='scan', isProfile:s.screen==='profile',
+      showNav:['home','accounts','bills','profile'].includes(s.screen),
+      cHome:navC('home'), cAccounts:navC('accounts'), cBills:navC('bills'), cProfile:navC('profile'),
+      goHome:()=>this.go('home'), goAccounts:()=>this.go('accounts'), goBills:()=>this.go('bills'),
+      goProfile:()=>this.go('profile'), goScan:()=>this.go('scan'), back:()=>this.back(),
+      toggleBal:()=>this.toggleBal(), eyeIcon:s.balanceHidden?'eye-off':'eye',
+      balanceText:s.balanceHidden?(cur+' • • • • •'):money(total),
+      netWorthText:money(netWorth),
+      accounts, homeStack:accounts, homeTx, recentTx, quickActions, billers, settingsItems,
+      detailAcct:accounts[s.detail], inMonthText:money(124000), outMonthText:money(89500),
+      startCashin:()=>this.startFlow('cashin'), startCashout:()=>this.startFlow('cashout'), startBill:()=>this.startFlow('bill'),
+      flowMeta, showRecipient, amountBig, chipAmounts, padKeys, pinKeys, pinDots,
+      toPin:()=>this.toPin(), done:()=>this.done(),
+      continueBg:amtOk?'#3a2b4a':'#d8ccd3', continueFg:amtOk?'#ffffff':'#a396a0',
+      pinSub:'to confirm '+flowMeta.title+' of '+amountBig,
+      successMsg:flowMeta.title+' completed successfully',
+    };
+  }
+}
+</script>
+</body>
+</html>

@@ -1,21 +1,31 @@
 package com.example.myapplication;
 
-import org.json.JSONException;
-import org.json.JSONObject;
+import com.google.firebase.database.Exclude;
+import com.google.firebase.database.IgnoreExtraProperties;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 
-/** A single local transaction record (Cash In, Send Money, Pay Bill, ...). */
+/**
+ * A single transaction record. Public no-arg constructor + public fields so
+ * Firebase can serialize it with setValue(...) and deserialize it with
+ * getValue(Transaction.class).
+ */
+@IgnoreExtraProperties
 public class Transaction {
 
-    public final String type;        // e.g. "Cash In"
-    public final String title;       // counterparty / detail, e.g. "To John" or "Wallet"
-    public final double amount;      // always positive
-    public final boolean incoming;   // true = money in, false = money out
-    public final long timestamp;     // millis
-    public final double balanceAfter;
+    public String type;        // e.g. "Cash In"
+    public String title;       // counterparty / detail, e.g. "To John"
+    public double amount;      // always positive
+    public boolean incoming;   // true = money in, false = money out
+    public long timestamp;     // millis
+    public double balanceAfter;
+
+    /** Required by Firebase for deserialization. */
+    public Transaction() {}
 
     public Transaction(String type, String title, double amount, boolean incoming,
                        long timestamp, double balanceAfter) {
@@ -27,29 +37,21 @@ public class Transaction {
         this.balanceAfter = balanceAfter;
     }
 
+    @Exclude
     public String formattedDate() {
         SimpleDateFormat fmt = new SimpleDateFormat("dd MMM yyyy, HH:mm", Locale.US);
         return fmt.format(new Date(timestamp));
     }
 
-    JSONObject toJson() throws JSONException {
-        JSONObject o = new JSONObject();
-        o.put("type", type);
-        o.put("title", title);
-        o.put("amount", amount);
-        o.put("incoming", incoming);
-        o.put("timestamp", timestamp);
-        o.put("balanceAfter", balanceAfter);
-        return o;
-    }
-
-    static Transaction fromJson(JSONObject o) {
-        return new Transaction(
-                o.optString("type", ""),
-                o.optString("title", ""),
-                o.optDouble("amount", 0d),
-                o.optBoolean("incoming", false),
-                o.optLong("timestamp", 0L),
-                o.optDouble("balanceAfter", 0d));
+    @Exclude
+    public Map<String, Object> toMap() {
+        Map<String, Object> m = new HashMap<>();
+        m.put("type", type);
+        m.put("title", title);
+        m.put("amount", amount);
+        m.put("incoming", incoming);
+        m.put("timestamp", timestamp);
+        m.put("balanceAfter", balanceAfter);
+        return m;
     }
 }

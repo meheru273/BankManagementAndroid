@@ -1,27 +1,37 @@
 {
   "project_info": {
-    "project_number": "1038651978957",
-    "firebase_url": "https://test-8b184-default-rtdb.firebaseio.com",
-    "project_id": "test-8b184",
-    "storage_bucket": "test-8b184.appspot.com"
+    "project_number": "90216642979",
+    "firebase_url": "https://mobilebank-9db40-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "mobilebank-9db40",
+    "storage_bucket": "mobilebank-9db40.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:1038651978957:android:d4dba54df769eacb866584",
+        "mobilesdk_app_id": "1:90216642979:android:a1b724c7e9dfe518404216",
         "android_client_info": {
-          "package_name": "com.example.myapplication"
+          "package_name": "com.mobilebank"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "90216642979-soav6i0c93h8b7vudlr5fdhr6f7u8jn8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
-          "current_key": "AIzaSyCLi9P9TPex6HaeX2pVTBc8llJip6Xkd-U"
+          "current_key": "AIzaSyBPzB4JnI3QkotYXygXYVtGTdM2k4cU1R8"
         }
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "90216642979-soav6i0c93h8b7vudlr5fdhr6f7u8jn8.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }

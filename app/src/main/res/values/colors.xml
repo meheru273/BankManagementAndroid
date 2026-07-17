@@ -3,25 +3,38 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
 
-    <!-- Brand palette -->
-    <color name="primary">#6A00FF</color>
-    <color name="primary_dark">#2F0070</color>
-    <color name="primary_variant">#7500DC</color>
-    <color name="accent">#00E1FF</color>
+    <!-- New brand palette (from the design) -->
+    <color name="plum">#3A2B4A</color>
+    <color name="navy">#2B3A5B</color>
+    <color name="gold">#D8C24A</color>
+    <color name="mauve">#BD93AB</color>
 
-    <!-- Backgrounds / surfaces -->
-    <color name="main_bg">#7500DC</color>
-    <color name="lite_bg">#E1CCFF</color>
+    <color name="ink">#2A2431</color>
+    <color name="ink_soft">#8A8090</color>
+    <color name="nav_inactive">#C0B2BB</color>
+
+    <color name="app_bg">#F4EBEE</color>
+    <color name="screen_top">#F7EFF2</color>
+    <color name="screen_bottom">#E9DCE4</color>
     <color name="surface">#FFFFFFFF</color>
-    <color name="screen_bg">#F4EEFF</color>
+    <color name="divider">#F0E8EC</color>
 
-    <!-- Text -->
-    <color name="text_primary">#1B1035</color>
-    <color name="text_secondary">#6B6580</color>
+    <color name="green_in">#3F7D54</color>
+    <color name="green_in_bg">#E9F3EC</color>
+    <color name="red_out">#B0546A</color>
+    <color name="red_out_bg">#F7EDF1</color>
+
+    <!-- Legacy names kept so existing auth screens keep compiling, remapped to the new palette -->
+    <color name="primary">#3A2B4A</color>
+    <color name="primary_dark">#2B3A5B</color>
+    <color name="primary_variant">#2B3A5B</color>
+    <color name="accent">#D8C24A</color>
+    <color name="main_bg">#3A2B4A</color>
+    <color name="lite_bg">#EFE4EA</color>
+    <color name="screen_bg">#F4EBEE</color>
+    <color name="text_primary">#2A2431</color>
+    <color name="text_secondary">#8A8090</color>
     <color name="text_on_primary">#FFFFFFFF</color>
-
-    <!-- Status -->
-    <color name="income">#1E9E5A</color>
-    <color name="expense">#D8324B</color>
-    <color name="divider">#E5DFF2</color>
+    <color name="income">#3F7D54</color>
+    <color name="expense">#B0546A</color>
 </resources>

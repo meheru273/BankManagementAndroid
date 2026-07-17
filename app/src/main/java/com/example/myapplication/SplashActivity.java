@@ -7,11 +7,14 @@ import android.os.Looper;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+
 /**
- * Launcher entry point. Decides where the user should land:
- *   no account        -> Sign Up
- *   account, logged out -> Login
- *   account, logged in  -> PIN lock
+ * Launcher entry point. Routing is driven by Firebase Auth:
+ *   not signed in            -> Login
+ *   signed in, PIN cached    -> PIN lock
+ *   signed in, no PIN cached -> straight to the dashboard
  */
 public class SplashActivity extends AppCompatActivity {
 
@@ -24,14 +27,14 @@ public class SplashActivity extends AppCompatActivity {
     }
 
     private void route() {
-        SessionManager session = new SessionManager(this);
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         Class<?> next;
-        if (!session.hasAccount()) {
-            next = SignUpActivity.class;
-        } else if (!session.isLoggedIn()) {
+        if (user == null) {
             next = LoginActivity.class;
-        } else {
+        } else if (new SessionManager(this).hasPinFor(user.getUid())) {
             next = PinActivity.class;
+        } else {
+            next = MainActivity.class;
         }
         startActivity(new Intent(this, next));
         finish();

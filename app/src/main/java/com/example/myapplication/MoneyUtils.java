@@ -3,21 +3,41 @@ package com.example.myapplication;
 import java.text.NumberFormat;
 import java.util.Locale;
 
-/** Formatting helpers for money and dates so every screen looks consistent. */
+/** Formatting helpers for money so every screen looks consistent. */
 public final class MoneyUtils {
 
     private MoneyUtils() {}
 
-    /** e.g. 4600.5 -> "$4,600.50" */
+    /** Bangladeshi Taka symbol used across the app. */
+    public static final String CURRENCY = "৳"; // ৳
+
+    // en-IN gives the lakh grouping (5,20,400.00) used in the design.
+    private static final Locale LOCALE = new Locale("en", "IN");
+
+    /** e.g. 5000.5 -> "৳ 5,000.50" */
     public static String format(double amount) {
-        NumberFormat nf = NumberFormat.getNumberInstance(Locale.US);
+        NumberFormat nf = NumberFormat.getNumberInstance(LOCALE);
         nf.setMinimumFractionDigits(2);
         nf.setMaximumFractionDigits(2);
-        return "$" + nf.format(amount);
+        return CURRENCY + " " + nf.format(amount);
     }
 
-    /** e.g. 4600.5 -> "+$4,600.50" / "-$4,600.50" based on direction. */
+    /** e.g. -> "+ ৳ 5,000.50" / "- ৳ 5,000.50" */
     public static String formatSigned(double amount, boolean incoming) {
-        return (incoming ? "+" : "-") + format(amount);
+        return (incoming ? "+ " : "- ") + format(amount);
+    }
+
+    /** Groups a raw typed integer/decimal string, e.g. "520400" -> "5,20,400". */
+    public static String group(String raw) {
+        if (raw == null || raw.isEmpty()) return "0";
+        String[] parts = raw.split("\\.", -1);
+        long whole;
+        try {
+            whole = Long.parseLong(parts[0].isEmpty() ? "0" : parts[0]);
+        } catch (NumberFormatException e) {
+            return raw;
+        }
+        String grouped = NumberFormat.getIntegerInstance(LOCALE).format(whole);
+        return parts.length > 1 ? grouped + "." + parts[1] : grouped;
     }
 }

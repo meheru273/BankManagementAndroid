@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <application
+        android:name=".App"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -39,28 +40,11 @@
         <activity
             android:name=".MainActivity"
             android:exported="false" />
-
         <activity
-            android:name=".CashIn"
-            android:exported="false"
-            android:windowSoftInputMode="adjustResize" />
-        <activity
-            android:name=".CashOut"
-            android:exported="false"
-            android:windowSoftInputMode="adjustResize" />
-        <activity
-            android:name=".SendMoney"
-            android:exported="false"
-            android:windowSoftInputMode="adjustResize" />
-        <activity
-            android:name=".Savings"
-            android:exported="false"
-            android:windowSoftInputMode="adjustResize" />
-        <activity
-            android:name=".Transactions"
+            android:name=".AccountDetailActivity"
             android:exported="false" />
         <activity
-            android:name=".PayBill"
+            android:name=".TransactActivity"
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
     </application>

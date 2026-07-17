@@ -8,26 +8,18 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 /**
- * Lightweight, offline account + session store backed by SharedPreferences.
+ * Local, on-device cache of the user's app-unlock PIN.
  *
- * This is a self-contained demo authentication layer: an account (name, email,
- * password, PIN) lives on the device. Passwords and PINs are stored only as
- * SHA-256 hashes, never in plain text. Swap this out for a real backend
- * (e.g. Firebase Auth) when moving beyond a demo.
+ * Identity, balance and transaction history all live in Firebase now. The PIN
+ * is purely a fast local gate shown on every app open: we store only its
+ * SHA-256 hash, tagged with the Firebase uid it belongs to, so it works
+ * instantly and offline without a network round-trip.
  */
 public class SessionManager {
 
-    private static final String PREFS = "bankmgmt_session";
-
-    private static final String KEY_NAME = "name";
-    private static final String KEY_EMAIL = "email";
-    private static final String KEY_PASS_HASH = "pass_hash";
+    private static final String PREFS = "bankmgmt_gate";
     private static final String KEY_PIN_HASH = "pin_hash";
-    private static final String KEY_BALANCE = "balance_bits";
-    private static final String KEY_SAVINGS = "savings_bits";
-    private static final String KEY_LOGGED_IN = "logged_in";
-
-    private static final double DEFAULT_BALANCE = 4500d;
+    private static final String KEY_UID = "uid";
 
     private final SharedPreferences prefs;
 
@@ -35,87 +27,35 @@ public class SessionManager {
         prefs = context.getApplicationContext().getSharedPreferences(PREFS, Context.MODE_PRIVATE);
     }
 
-    // --- Account state ---------------------------------------------------
-
-    public boolean hasAccount() {
-        return prefs.contains(KEY_EMAIL);
+    /** Stores the PIN (hashing it) for the given Firebase user. Used at sign-up. */
+    public void savePin(String uid, String pin) {
+        savePinHash(uid, hash(pin));
     }
 
-    public boolean isLoggedIn() {
-        return prefs.getBoolean(KEY_LOGGED_IN, false);
-    }
-
-    public void createAccount(String name, String email, String password, String pin) {
+    /** Stores an already-hashed PIN for the given user. Used at login (hash comes from the DB). */
+    public void savePinHash(String uid, String pinHash) {
         prefs.edit()
-                .putString(KEY_NAME, name.trim())
-                .putString(KEY_EMAIL, email.trim().toLowerCase())
-                .putString(KEY_PASS_HASH, hash(password))
-                .putString(KEY_PIN_HASH, hash(pin))
-                .putBoolean(KEY_LOGGED_IN, true)
+                .putString(KEY_UID, uid)
+                .putString(KEY_PIN_HASH, pinHash)
                 .apply();
-        putDouble(KEY_BALANCE, DEFAULT_BALANCE);
-        putDouble(KEY_SAVINGS, 0d);
     }
 
-    public boolean emailMatches(String email) {
-        String stored = prefs.getString(KEY_EMAIL, null);
-        return stored != null && stored.equalsIgnoreCase(email.trim());
-    }
-
-    public boolean checkPassword(String password) {
-        return hash(password).equals(prefs.getString(KEY_PASS_HASH, ""));
+    /** True if we hold a PIN for this uid (so the lock screen can be shown). */
+    public boolean hasPinFor(String uid) {
+        return uid != null
+                && uid.equals(prefs.getString(KEY_UID, null))
+                && prefs.contains(KEY_PIN_HASH);
     }
 
     public boolean checkPin(String pin) {
         return hash(pin).equals(prefs.getString(KEY_PIN_HASH, ""));
     }
 
-    public void setLoggedIn(boolean loggedIn) {
-        prefs.edit().putBoolean(KEY_LOGGED_IN, loggedIn).apply();
+    public void clear() {
+        prefs.edit().remove(KEY_PIN_HASH).remove(KEY_UID).apply();
     }
 
-    public void logout() {
-        setLoggedIn(false);
-    }
-
-    public String getName() {
-        return prefs.getString(KEY_NAME, "User");
-    }
-
-    public String getEmail() {
-        return prefs.getString(KEY_EMAIL, "");
-    }
-
-    // --- Money -----------------------------------------------------------
-
-    public double getBalance() {
-        return getDouble(KEY_BALANCE, DEFAULT_BALANCE);
-    }
-
-    public void setBalance(double value) {
-        putDouble(KEY_BALANCE, value);
-    }
-
-    public double getSavings() {
-        return getDouble(KEY_SAVINGS, 0d);
-    }
-
-    public void setSavings(double value) {
-        putDouble(KEY_SAVINGS, value);
-    }
-
-    // --- Helpers ---------------------------------------------------------
-
-    private void putDouble(String key, double value) {
-        prefs.edit().putLong(key, Double.doubleToRawLongBits(value)).apply();
-    }
-
-    private double getDouble(String key, double fallback) {
-        if (!prefs.contains(key)) return fallback;
-        return Double.longBitsToDouble(prefs.getLong(key, 0L));
-    }
-
-    private static String hash(String input) {
+    public static String hash(String input) {
         try {
             MessageDigest md = MessageDigest.getInstance("SHA-256");
             byte[] digest = md.digest(input.getBytes(StandardCharsets.UTF_8));
@@ -126,7 +66,6 @@ public class SessionManager {
             }
             return sb.toString();
         } catch (NoSuchAlgorithmException e) {
-            // SHA-256 is guaranteed to exist on Android; fall back defensively.
             return Integer.toHexString(input.hashCode());
         }
     }
