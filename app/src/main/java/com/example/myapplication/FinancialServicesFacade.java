@@ -2,43 +2,126 @@ package com.example.myapplication;
 
 import android.content.Context;
 
+/**
+ * Facade over the wallet's financial operations. Screens call these simple
+ * methods and get back a {@link Result}; all validation, balance updates and
+ * history recording happen here so the UI stays thin.
+ */
 public class FinancialServicesFacade {
-    public void processPayment(Context context, double amount) {
-        // Simplify payment processing
-        // This could interact with a payment API or service
-        // For example, integrating with a payment gateway
-        System.out.println("Processing payment of $" + amount);
-        // Placeholder for payment processing logic
+
+    private final SessionManager session;
+    private final TransactionStore store;
+
+    public FinancialServicesFacade(Context context) {
+        this.session = new SessionManager(context);
+        this.store = new TransactionStore(context);
     }
 
-    public void checkBalance(Context context) {
-        // Check the balance of the user
-        // This could interact with a database or a remote server
-        System.out.println("Checking balance");
-        // Placeholder for balance checking logic
+    public double getBalance() {
+        return session.getBalance();
     }
 
-    public void transferMoney(Context context, double amount) {
-        // Transfer money to another account
-        System.out.println("Transferring $" + amount);
-        // Placeholder for money transfer logic
+    public double getSavings() {
+        return session.getSavings();
     }
 
-    public void SendMoney(MainActivity mainActivity, int i) {
+    public Result cashIn(double amount) {
+        Result invalid = validatePositive(amount);
+        if (invalid != null) return invalid;
+
+        double newBalance = session.getBalance() + amount;
+        session.setBalance(newBalance);
+        record("Cash In", "Added to wallet", amount, true, newBalance);
+        return Result.ok("Cashed in " + MoneyUtils.format(amount)
+                + ". Balance: " + MoneyUtils.format(newBalance));
     }
 
-    public void Savings(MainActivity mainActivity, int i) {
+    public Result cashOut(double amount) {
+        Result invalid = validateOutgoing(amount);
+        if (invalid != null) return invalid;
+
+        double newBalance = session.getBalance() - amount;
+        session.setBalance(newBalance);
+        record("Cash Out", "Withdrawn from wallet", amount, false, newBalance);
+        return Result.ok("Cashed out " + MoneyUtils.format(amount)
+                + ". Balance: " + MoneyUtils.format(newBalance));
     }
 
-    public void Transactions(MainActivity mainActivity, int i) {
+    public Result sendMoney(String recipient, double amount) {
+        if (recipient == null || recipient.trim().isEmpty()) {
+            return Result.fail("Please enter a recipient");
+        }
+        Result invalid = validateOutgoing(amount);
+        if (invalid != null) return invalid;
+
+        double newBalance = session.getBalance() - amount;
+        session.setBalance(newBalance);
+        record("Send Money", "To " + recipient.trim(), amount, false, newBalance);
+        return Result.ok("Sent " + MoneyUtils.format(amount) + " to " + recipient.trim()
+                + ". Balance: " + MoneyUtils.format(newBalance));
     }
 
-    public void PayBill(MainActivity mainActivity, int i) {
+    public Result payBill(String biller, double amount) {
+        if (biller == null || biller.trim().isEmpty()) {
+            return Result.fail("Please enter a biller");
+        }
+        Result invalid = validateOutgoing(amount);
+        if (invalid != null) return invalid;
+
+        double newBalance = session.getBalance() - amount;
+        session.setBalance(newBalance);
+        record("Pay Bill", biller.trim(), amount, false, newBalance);
+        return Result.ok("Paid " + MoneyUtils.format(amount) + " to " + biller.trim()
+                + ". Balance: " + MoneyUtils.format(newBalance));
     }
 
-    public void CashIn(MainActivity mainActivity, int i) {
+    public Result addToSavings(double amount) {
+        Result invalid = validateOutgoing(amount);
+        if (invalid != null) return invalid;
+
+        double newBalance = session.getBalance() - amount;
+        session.setBalance(newBalance);
+        session.setSavings(session.getSavings() + amount);
+        record("Savings", "Moved to savings", amount, false, newBalance);
+        return Result.ok("Moved " + MoneyUtils.format(amount) + " to savings. Savings: "
+                + MoneyUtils.format(session.getSavings()));
     }
 
-    public void CashOut(MainActivity mainActivity, int i) {
+    // --- internals -------------------------------------------------------
+
+    private Result validatePositive(double amount) {
+        if (amount <= 0) return Result.fail("Amount must be greater than 0");
+        return null;
+    }
+
+    private Result validateOutgoing(double amount) {
+        Result invalid = validatePositive(amount);
+        if (invalid != null) return invalid;
+        if (amount > session.getBalance()) return Result.fail("Insufficient balance");
+        return null;
+    }
+
+    private void record(String type, String title, double amount, boolean incoming, double balanceAfter) {
+        store.add(new Transaction(type, title, amount, incoming,
+                System.currentTimeMillis(), balanceAfter));
+    }
+
+    /** Simple success/failure carrier with a user-facing message. */
+    public static class Result {
+        public final boolean ok;
+        public final String message;
+
+        private Result(boolean ok, String message) {
+            this.ok = ok;
+            this.message = message;
+        }
+
+        static Result ok(String message) {
+            return new Result(true, message);
+        }
+
+        static Result fail(String message) {
+            return new Result(false, message);
+        }
     }
 }

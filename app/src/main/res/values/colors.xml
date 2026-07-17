@@ -2,6 +2,26 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+    <!-- Brand palette -->
+    <color name="primary">#6A00FF</color>
+    <color name="primary_dark">#2F0070</color>
+    <color name="primary_variant">#7500DC</color>
+    <color name="accent">#00E1FF</color>
+
+    <!-- Backgrounds / surfaces -->
     <color name="main_bg">#7500DC</color>
     <color name="lite_bg">#E1CCFF</color>
+    <color name="surface">#FFFFFFFF</color>
+    <color name="screen_bg">#F4EEFF</color>
+
+    <!-- Text -->
+    <color name="text_primary">#1B1035</color>
+    <color name="text_secondary">#6B6580</color>
+    <color name="text_on_primary">#FFFFFFFF</color>
+
+    <!-- Status -->
+    <color name="income">#1E9E5A</color>
+    <color name="expense">#D8324B</color>
+    <color name="divider">#E5DFF2</color>
 </resources>

@@ -1,3 +1,58 @@
 <resources>
-    <string name="app_name">My Application</string>
+    <string name="app_name">My Bank</string>
+
+    <!-- Auth -->
+    <string name="sign_in">Sign In</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="create_account">Create account</string>
+    <string name="welcome_back">Welcome back</string>
+    <string name="sign_in_subtitle">Sign in to continue to your wallet</string>
+    <string name="sign_up_subtitle">Set up your wallet in a few seconds</string>
+    <string name="full_name">Full name</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="confirm_password">Confirm password</string>
+    <string name="pin_4_digits">4-digit PIN</string>
+    <string name="no_account_prompt">Don\'t have an account? </string>
+    <string name="have_account_prompt">Already have an account? </string>
+    <string name="log_out">Log Out</string>
+
+    <!-- PIN lock -->
+    <string name="enter_your_pin">Enter your PIN</string>
+    <string name="pin_locked_subtitle">Enter your 4-digit PIN to unlock</string>
+    <string name="unlock">Unlock</string>
+    <string name="use_password_instead">Use password instead</string>
+    <string name="wrong_pin">Incorrect PIN. Try again.</string>
+
+    <!-- Dashboard -->
+    <string name="available_balance">Available balance</string>
+    <string name="cash_in">Cash In</string>
+    <string name="cash_out">Cash Out</string>
+    <string name="send_money">Send Money</string>
+    <string name="savings">Savings</string>
+    <string name="transactions">Transactions</string>
+    <string name="pay_bill">Pay Bill</string>
+
+    <!-- Transaction screens -->
+    <string name="amount">Amount</string>
+    <string name="recipient">Recipient name or number</string>
+    <string name="biller">Biller / company</string>
+    <string name="currency_prefix">$</string>
+    <string name="confirm">Confirm</string>
+    <string name="no_transactions">No transactions yet</string>
+    <string name="no_transactions_hint">Your cash-ins, transfers and payments will appear here.</string>
+
+    <!-- Validation / feedback -->
+    <string name="err_enter_amount">Please enter a valid amount</string>
+    <string name="err_amount_positive">Amount must be greater than 0</string>
+    <string name="err_insufficient">Insufficient balance</string>
+    <string name="err_enter_recipient">Please enter a recipient</string>
+    <string name="err_enter_biller">Please enter a biller</string>
+    <string name="err_required">This field is required</string>
+    <string name="err_invalid_email">Enter a valid email</string>
+    <string name="err_password_length">Password must be at least 6 characters</string>
+    <string name="err_password_match">Passwords do not match</string>
+    <string name="err_pin_length">PIN must be exactly 4 digits</string>
+    <string name="err_email_exists">An account with this email already exists</string>
+    <string name="err_invalid_credentials">Incorrect email or password</string>
 </resources>

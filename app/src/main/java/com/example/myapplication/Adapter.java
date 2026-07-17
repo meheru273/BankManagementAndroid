@@ -7,16 +7,18 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.util.ArrayList;
+import java.util.List;
 
+/** Binds local {@link Transaction} records to the transaction list rows. */
 public class Adapter extends RecyclerView.Adapter<Adapter.MyViewHolder> {
 
-    Context context;
-    ArrayList<Model> list;
+    private final Context context;
+    private final List<Transaction> list;
 
-    public Adapter(Context context, ArrayList<Model> list) {
+    public Adapter(Context context, List<Transaction> list) {
         this.context = context;
         this.list = list;
     }
@@ -30,12 +32,13 @@ public class Adapter extends RecyclerView.Adapter<Adapter.MyViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-        Model model = list.get(position);
-        holder.amount.setText(String.valueOf(model.getAmount()));
-        holder.date.setText(model.getDate());
-        holder.reciever.setText(model.getReciever());
-        holder.savings.setText(String.valueOf(model.getSavings()));
-        holder.type.setText(model.getType());
+        Transaction tx = list.get(position);
+        holder.type.setText(tx.type);
+        holder.title.setText(tx.title);
+        holder.date.setText(tx.formattedDate());
+        holder.amount.setText(MoneyUtils.formatSigned(tx.amount, tx.incoming));
+        int color = ContextCompat.getColor(context, tx.incoming ? R.color.income : R.color.expense);
+        holder.amount.setTextColor(color);
     }
 
     @Override
@@ -44,16 +47,14 @@ public class Adapter extends RecyclerView.Adapter<Adapter.MyViewHolder> {
     }
 
     public static class MyViewHolder extends RecyclerView.ViewHolder {
-        TextView amount, date, reciever, savings, type;
+        TextView type, title, date, amount;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
-            amount = itemView.findViewById(R.id.amount1);
-            date = itemView.findViewById(R.id.date1);
-            reciever = itemView.findViewById(R.id.reciever1);
-            savings = itemView.findViewById(R.id.savings1);
-            type = itemView.findViewById(R.id.type1);
+            type = itemView.findViewById(R.id.txType);
+            title = itemView.findViewById(R.id.txTitle);
+            date = itemView.findViewById(R.id.txDate);
+            amount = itemView.findViewById(R.id.txAmount);
         }
     }
 }
-
