@@ -17,11 +17,41 @@
     <string name="have_account_prompt">Already have an account? </string>
     <string name="log_out">Log out</string>
 
+    <!-- Phone / OTP sign-in -->
+    <string name="enter_mobile">Enter your mobile number to continue</string>
+    <string name="mobile_number">Mobile number</string>
+    <string name="country_code">+880</string>
+    <string name="send_code">Send code</string>
+    <string name="otp_note">We\'ll text you a 6-digit verification code.</string>
+    <string name="enter_code_title">Enter the code</string>
+    <string name="code_sent_to">Code sent to %1$s</string>
+    <string name="verify">Verify</string>
+    <string name="resend_code">Resend code</string>
+    <string name="otp_hint">6-digit code</string>
+    <string name="change_number">Change number</string>
+    <string name="err_enter_phone">Enter a valid mobile number</string>
+    <string name="err_enter_code">Enter the 6-digit code</string>
+    <string name="err_invalid_code">Incorrect code. Please try again.</string>
+    <string name="err_too_many">Too many attempts. Try again later.</string>
+
+    <!-- Registration (KYC) -->
+    <string name="complete_profile">Complete your profile</string>
+    <string name="complete_profile_sub">A few details to finish setting up your account</string>
+    <string name="verified_phone">Verified: %1$s</string>
+    <string name="nid_label">NID / National ID</string>
+    <string name="dob_label">Date of birth</string>
+    <string name="address_label">Present address</string>
+    <string name="bank_account_label">Bank account number</string>
+    <string name="set_pin">Set a 4-digit PIN</string>
+    <string name="confirm_pin">Confirm PIN</string>
+    <string name="err_dob">Select your date of birth</string>
+    <string name="err_pin_match">PINs do not match</string>
+
     <!-- PIN lock -->
     <string name="enter_your_pin">Enter your PIN</string>
     <string name="pin_locked_subtitle">Enter your 4-digit PIN to unlock</string>
     <string name="unlock">Unlock</string>
-    <string name="use_password_instead">Use password instead</string>
+    <string name="use_password_instead">Use a different number</string>
     <string name="wrong_pin">Incorrect PIN. Try again.</string>
 
     <!-- Bottom nav -->

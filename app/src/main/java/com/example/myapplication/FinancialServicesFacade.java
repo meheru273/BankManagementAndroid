@@ -37,6 +37,10 @@ public class FinancialServicesFacade {
         void onValue(String value); // value may be null
     }
 
+    public interface BoolCallback {
+        void onResult(boolean value);
+    }
+
     private interface BalanceHandler {
         void onBalance(double balance);
     }
@@ -63,21 +67,37 @@ public class FinancialServicesFacade {
 
     // --- Profile ---------------------------------------------------------
 
-    /** One-time profile creation right after sign-up. */
-    public void createProfile(String name, String email, String pinHash, OpCallback cb) {
+    /** One-time KYC profile creation right after phone verification. */
+    public void createProfile(Profile p, String pinHash, OpCallback cb) {
         if (userRef == null) {
             cb.onResult(false, "Database unavailable. Check your Firebase setup.");
             return;
         }
         Map<String, Object> profile = new HashMap<>();
-        profile.put("name", name);
-        profile.put("email", email);
+        profile.put("name", p.name);
+        profile.put("phone", p.phone);
+        profile.put("nid", p.nid);
+        profile.put("dob", p.dob);
+        profile.put("address", p.address);
+        profile.put("bankAccount", p.bankAccount);
         profile.put("pinHash", pinHash);
         profile.put("balance", DEFAULT_BALANCE);
         profile.put("savings", 0d);
         userRef.updateChildren(profile).addOnCompleteListener(task ->
                 cb.onResult(task.isSuccessful(),
                         task.isSuccessful() ? "Account ready" : "Could not set up your account"));
+    }
+
+    /** True if this signed-in user already has a profile (returning user). */
+    public void checkProfileExists(BoolCallback cb) {
+        if (userRef == null) {
+            cb.onResult(false);
+            return;
+        }
+        userRef.child("name").get().addOnCompleteListener(task ->
+                cb.onResult(task.isSuccessful()
+                        && task.getResult() != null
+                        && task.getResult().getValue() != null));
     }
 
     public void loadPinHash(StringCallback cb) {

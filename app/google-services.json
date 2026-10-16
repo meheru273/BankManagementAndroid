@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "90216642979-4n3hb8tlvfq4h1goa86nk77ktvud0khn.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.mobilebank",
+            "certificate_hash": "28fc2812c120dd87ed3d906841ffe9de95a1f71b"
+          }
+        },
+        {
           "client_id": "90216642979-soav6i0c93h8b7vudlr5fdhr6f7u8jn8.apps.googleusercontent.com",
           "client_type": 3
         }

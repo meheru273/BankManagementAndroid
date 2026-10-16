@@ -7,6 +7,11 @@ android {
     namespace = "com.example.myapplication"
     compileSdk = 34
 
+    buildFeatures {
+        // Enables BuildConfig.DEBUG, used to disable Phone Auth reCAPTCHA in debug builds.
+        buildConfig = true
+    }
+
     defaultConfig {
         // Must match the package_name registered in google-services.json (Firebase app).
         applicationId = "com.mobilebank"

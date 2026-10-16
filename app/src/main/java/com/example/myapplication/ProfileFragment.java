@@ -31,11 +31,14 @@ public class ProfileFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View v, @Nullable Bundle savedInstanceState) {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        String name = user != null && user.getDisplayName() != null ? user.getDisplayName() : "User";
-        String email = user != null ? user.getEmail() : "";
+        LocalProfile local = new LocalProfile(requireContext());
+        String name = user != null && user.getDisplayName() != null ? user.getDisplayName()
+                : (local.getName() != null ? local.getName() : "User");
+        String phone = user != null && user.getPhoneNumber() != null ? user.getPhoneNumber()
+                : (local.getPhone() != null ? local.getPhone() : "");
 
         ((TextView) v.findViewById(R.id.profile_name)).setText(name);
-        ((TextView) v.findViewById(R.id.profile_email)).setText(email);
+        ((TextView) v.findViewById(R.id.profile_email)).setText(phone);
         ((TextView) v.findViewById(R.id.profile_initials)).setText(initials(name));
 
         LinearLayout box = v.findViewById(R.id.profile_settings);
@@ -58,6 +61,7 @@ public class ProfileFragment extends Fragment {
         v.findViewById(R.id.profile_logout).setOnClickListener(x -> {
             FirebaseAuth.getInstance().signOut();
             new SessionManager(requireContext()).clear();
+            new LocalProfile(requireContext()).clearIdentity();
             Intent i = new Intent(requireContext(), LoginActivity.class);
             i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(i);
